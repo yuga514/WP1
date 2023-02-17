@@ -12,12 +12,12 @@ StageThreePlayer::~StageThreePlayer()
 	safe_delete(modelPlayerLeft);
 	safe_delete(modelAttack1);
 	safe_delete(modelAttack2);
-	safe_delete(modelBossBrownEnemy);
+	safe_delete(modelBoss);
 	safe_delete(objPlayerRight);
 	safe_delete(objPlayerLeft);
 	safe_delete(objAttack1);
 	safe_delete(objAttack2);
-	safe_delete(objBossBrownEnemy);
+	safe_delete(objBoss);
 }
 
 // 初期化
@@ -39,14 +39,14 @@ void StageThreePlayer::Initialize(Input* input)
 	modelPlayerLeft = Model::CreateFromOBJ("playerLeft");
 	modelAttack1 = Model::CreateFromOBJ("attack1");
 	modelAttack2 = Model::CreateFromOBJ("attack2");
-	modelBossBrownEnemy = Model::CreateFromOBJ("bossBrownEnemy");
+	modelBoss = Model::CreateFromOBJ("brownEnemy");
 
 	// 3Dオブジェクト生成
 	objPlayerRight = Object3d::Create(modelPlayerRight);
 	objPlayerLeft = Object3d::Create(modelPlayerLeft);
 	objAttack1 = Object3d::Create(modelAttack1);
 	objAttack2 = Object3d::Create(modelAttack2);
-	objBossBrownEnemy = Object3d::Create(modelBossBrownEnemy);
+	objBoss = Object3d::Create(modelBoss);
 }
 
 // 更新
@@ -74,7 +74,7 @@ void StageThreePlayer::Update()
 	objPlayerLeft->Update();
 	objAttack1->Update();
 	objAttack2->Update();
-	objBossBrownEnemy->Update();
+	objBoss->Update();
 }
 
 // 描画
@@ -92,7 +92,7 @@ void StageThreePlayer::Draw()
 	if (attackFlag == 2) {
 		objAttack2->Draw();
 	}
-	objBossBrownEnemy->Draw();
+	objBoss->Draw();
 }
 
 // ゲッター
@@ -106,16 +106,17 @@ void StageThreePlayer::Getter()
 	objPlayerLeft->GetPosition();
 	objAttack1->GetPosition();
 	objAttack2->GetPosition();
-	objBossBrownEnemy->GetPosition();
+	objBoss->GetPosition();
 
 	// ゲットローテーション
 	objPlayerRight->GetRotation();
 	objPlayerLeft->GetRotation();
-	objBossBrownEnemy->GetRotation();
+	objBoss->GetRotation();
 
 	// ゲットスケール
 	objPlayerRight->GetScale();
 	objPlayerLeft->GetScale();
+	objBoss->GetScale();
 }
 
 // セッター
@@ -129,16 +130,17 @@ void StageThreePlayer::Setter()
 	objPlayerLeft->SetPosition(PlayerPosition);
 	objAttack1->SetPosition(PlayerPosition);
 	objAttack2->SetPosition(PlayerPosition);
-	objBossBrownEnemy->SetPosition(BossBrownEnemyPosition);
+	objBoss->SetPosition(BossPosition);
 
 	// セットローテーション
 	objPlayerRight->SetRotation(PlayerRotation);
 	objPlayerLeft->SetRotation(PlayerRotation);
-	objBossBrownEnemy->SetRotation(BossEnemyRotation);
+	objBoss->SetRotation(BossRotation);
 
 	// セットスケール
 	objPlayerRight->SetScale(PlayerScale);
 	objPlayerLeft->SetScale(PlayerScale);
+	objBoss->SetScale({ 2,2,2 });
 }
 
 // プレイヤーのアクション
@@ -229,26 +231,26 @@ void StageThreePlayer::PlayerAction()
 void StageThreePlayer::EnemyAction()
 {
 	// 左移動
-	if (bossBrownEnemyMoveFlag == 0) {
-		BossBrownEnemyPosition.x -= 0.2f;
+	if (bossMoveFlag == 0) {
+		BossPosition.x -= 0.2f;
 	}
 	// 右移動
-	if (bossBrownEnemyMoveFlag == 1) {
-		BossBrownEnemyPosition.x += 0.2f;
+	if (bossMoveFlag == 1) {
+		BossPosition.x += 0.2f;
 	}
 
 	// 方向転換
-	if (BossBrownEnemyPosition.x < 0) {
-		bossBrownEnemyMoveFlag = 1;
+	if (BossPosition.x < 0) {
+		bossMoveFlag = 1;
 	}
-	if (42 < BossBrownEnemyPosition.x) {
-		bossBrownEnemyMoveFlag = 0;
+	if (42 < BossPosition.x) {
+		bossMoveFlag = 0;
 	}
 
 	// 回転
-	BossEnemyRotation.y += 3.6f;
-	if (BossEnemyRotation.y == 360) {
-		BossEnemyRotation.y = 0.0f;
+	BossRotation.y += 3.6f;
+	if (BossRotation.y == 360) {
+		BossRotation.y = 0.0f;
 	}
 }
 

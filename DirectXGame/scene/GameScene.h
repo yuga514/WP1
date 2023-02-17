@@ -66,7 +66,7 @@ private: // メンバ変数
 	// ゲームシーン用
 	char str[100] = { 0 };
 	unsigned int scene = 0;
-	unsigned int bossEnemyFlag = 0;
+	unsigned int bossFlag = 0;
 
 	Sprite* title = nullptr;
 	Sprite* background1 = nullptr;

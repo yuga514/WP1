@@ -268,9 +268,9 @@ void GameScene::SceneChange()
 		XMFLOAT3 EnemyPosition = stageThreePlayer->GetPosition2();
 		if (EnemyPosition.x - 3 < PlayerPosition.x && PlayerPosition.x <
 			EnemyPosition.x + 3 && PlayerPosition.y < 4 && input->TriggerKey(DIK_X)) {
-			bossEnemyFlag++;
+			bossFlag++;
 		}
-		if (bossEnemyFlag == 15) {
+		if (bossFlag == 15) {
 			scene = 5;
 		}
 	}
