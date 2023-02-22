@@ -113,17 +113,19 @@ void StageOnePlayer::Update()
 // 描画
 void StageOnePlayer::Draw()
 {
-	if (direction == 0) {
-		objPlayerRight->Draw();
-	}
-	if (direction == 1) {
-		objPlayerLeft->Draw();
-	}
-	if (attackFlag == 1) {
-		objAttack1->Draw();
-	}
-	if (attackFlag == 2) {
-		objAttack2->Draw();
+	if (damageCount % 2 == 0 && 0 < HP) {
+		if (direction == 0) {
+			objPlayerRight->Draw();
+		}
+		if (direction == 1) {
+			objPlayerLeft->Draw();
+		}
+		if (attackFlag == 1) {
+			objAttack1->Draw();
+		}
+		if (attackFlag == 2) {
+			objAttack2->Draw();
+		}
 	}
 	for (int i = 0; i < 2; i++) {
 		if (brownBrockFlag[i] == 0) {
@@ -468,17 +470,40 @@ void StageOnePlayer::Collision()
 	}
 
 	// エネミーの当たり判定
-	if (BrownEnemyPosition[0].x - 3 < PlayerPosition.x && PlayerPosition.x <
-		BrownEnemyPosition[0].x + 3 && PlayerPosition.y < 4 && 0 < attackFlag) {
-		brownEnemyFlag[0] = 1;
+	if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
+		BrownEnemyPosition[0].x + 2 && PlayerPosition.y < 3 && brownEnemyFlag[0] == 0) {
+		if (attackFlag == 0 && damageCount == 0) {
+			damageCount = 30;
+		}
+		if (0 < attackFlag) {
+			brownEnemyFlag[0] = 1;
+		}
 	}
-	if (BrownEnemyPosition[1].x - 3 < PlayerPosition.x && PlayerPosition.x <
-		BrownEnemyPosition[1].x + 3 && PlayerPosition.y < 13 && 0 < attackFlag) {
-		brownEnemyFlag[1] = 1;
+	if (BrownEnemyPosition[1].x - 2 < PlayerPosition.x && PlayerPosition.x <
+		BrownEnemyPosition[1].x + 2 && PlayerPosition.y < 15 && brownEnemyFlag[1] == 0) {
+		if (attackFlag == 0 && damageCount == 0) {
+			damageCount = 30;
+		}
+		if (0 < attackFlag) {
+			brownEnemyFlag[1] = 1;
+		}
 	}
-	if (GrayEnemyPosition.x - 3 < PlayerPosition.x && PlayerPosition.x <
-		GrayEnemyPosition.x + 3 && PlayerPosition.y < 4 && attackFlag == 2) {
-		grayEnemyFlag = 1;
+	if (GrayEnemyPosition.x - 2 < PlayerPosition.x && PlayerPosition.x <
+		GrayEnemyPosition.x + 2 && PlayerPosition.y < 3 && grayEnemyFlag == 0) {
+		if (attackFlag == 0 && damageCount == 0) {
+			damageCount = 30;
+		}
+		if (attackFlag == 2) {
+			grayEnemyFlag = 1;
+		}
+	}
+
+	// ダメージ関係
+	if (damageCount == 30) {
+		HP--;
+	}
+	if (0 < damageCount) {
+		damageCount--;
 	}
 }
 

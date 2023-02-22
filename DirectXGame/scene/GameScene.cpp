@@ -11,6 +11,7 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	safe_delete(title);
+	safe_delete(HP);
 	safe_delete(background1);
 	safe_delete(background2);
 	safe_delete(background3);
@@ -40,20 +41,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// テクスチャ読み込み
 	Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png");
 	Sprite::LoadTexture(1, L"Resources/title.png");
-	Sprite::LoadTexture(2, L"Resources/background1.png");
-	Sprite::LoadTexture(3, L"Resources/background2.png");
-	Sprite::LoadTexture(4, L"Resources/background3.png");
-	Sprite::LoadTexture(5, L"Resources/background4.png");
-	Sprite::LoadTexture(6, L"Resources/gameclear.png");
+	Sprite::LoadTexture(2, L"Resources/HP.png");
+	Sprite::LoadTexture(3, L"Resources/background1.png");
+	Sprite::LoadTexture(4, L"Resources/background2.png");
+	Sprite::LoadTexture(5, L"Resources/background3.png");
+	Sprite::LoadTexture(6, L"Resources/background4.png");
+	Sprite::LoadTexture(7, L"Resources/gameclear.png");
 
 	// スプライト生成
 	debugText.Initialize(debugTextTexNumber);
 	title = Sprite::Create(1, { 0.0f,0.0f }, { 2,2,2,1 });
-	background1 = Sprite::Create(2, { 0.0f,0.0f });
-	background2 = Sprite::Create(3, { 0.0f,0.0f });
-	background3 = Sprite::Create(4, { 0.0f,0.0f });
-	background4 = Sprite::Create(5, { 0.0f,0.0f });
-	gameclear = Sprite::Create(6, { 0.0f,0.0f }, { 2,2,2,1 });
+	HP= Sprite::Create(2, { 0.0f,0.0f }, { 2,2,2,1 });
+	background1 = Sprite::Create(3, { 0.0f,0.0f });
+	background2 = Sprite::Create(4, { 0.0f,0.0f });
+	background3 = Sprite::Create(5, { 0.0f,0.0f });
+	background4 = Sprite::Create(6, { 0.0f,0.0f });
+	gameclear = Sprite::Create(7, { 0.0f,0.0f }, { 2,2,2,1 });
 
 	// サウンド読み込み
 	audio->SoundLoadWave("bgm.wav");
@@ -165,7 +168,6 @@ void GameScene::Draw()
 	case 6:
 		break;
 	}
-	//background1->Draw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -215,6 +217,7 @@ void GameScene::Draw()
 	case 0:
 		break;
 	case 1:
+		HP->Draw();
 		break;
 	case 2:
 		break;

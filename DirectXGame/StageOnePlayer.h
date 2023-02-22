@@ -47,6 +47,12 @@ public: // メンバ関数
 	// 壊れるブロックの着地
 	void CrushBrockLand();
 
+	// HPの取得
+	unsigned int GetHP() { return HP; }
+
+	// 座標の設定
+	void SetHP(unsigned int HP) { this->HP = HP; }
+
 	// 座標の取得
 	XMFLOAT3 GetPosition() { return objPlayerRight->GetPosition(); }
 
@@ -54,10 +60,12 @@ public: // メンバ関数
 	XMFLOAT3 GetTarget() { return camera->GetTarget(); }
 
 private: // メンバ変数
+	unsigned int HP = 5;
 	bool direction = 0;
 	float speed = 0.1f;
 	float jumpPower = 0;
 	unsigned int jumpCount = 0;
+	unsigned int damageCount = 0;
 	unsigned int attackFlag = 0;
 	bool brownBrockFlag[2] = {};
 	bool grayBrockFlag[4] = {};

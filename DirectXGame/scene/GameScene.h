@@ -69,6 +69,7 @@ private: // メンバ変数
 	unsigned int bossFlag = 0;
 
 	Sprite* title = nullptr;
+	Sprite* HP = nullptr;
 	Sprite* background1 = nullptr;
 	Sprite* background2 = nullptr;
 	Sprite* background3 = nullptr;
