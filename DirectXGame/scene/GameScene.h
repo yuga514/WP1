@@ -50,6 +50,9 @@ public: // メンバ関数
 	// 描画
 	void Draw();
 
+	// 当たり判定
+	void Collision();
+
 	// シーン切り替え
 	void SceneChange();
 
@@ -66,15 +69,22 @@ private: // メンバ変数
 	// ゲームシーン用
 	char str[100] = { 0 };
 	unsigned int scene = 0;
-	unsigned int bossFlag = 0;
+	unsigned int HP = 5;
+	unsigned int bossHP = 15;
 
 	Sprite* title = nullptr;
-	Sprite* HP = nullptr;
+	Sprite* HP5 = nullptr;
+	Sprite* HP4 = nullptr;
+	Sprite* HP3 = nullptr;
+	Sprite* HP2 = nullptr;
+	Sprite* HP1 = nullptr;
+	Sprite* HP0 = nullptr;
 	Sprite* background1 = nullptr;
 	Sprite* background2 = nullptr;
 	Sprite* background3 = nullptr;
 	Sprite* background4 = nullptr;
 	Sprite* gameclear = nullptr;
+	Sprite* gameover = nullptr;
 
 	TutorialPlayer* tutorialPlayer = nullptr;
 	TutorialMap* tutorialMap = nullptr;

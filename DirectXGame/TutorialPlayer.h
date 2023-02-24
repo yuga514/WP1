@@ -44,11 +44,11 @@ public: // メンバ関数
 	// 壊れるブロックの着地
 	void CrushBrockLand();
 
-	// 座標の取得
-	XMFLOAT3 GetPosition() { return objPlayerRight->GetPosition(); }
+	// プレイヤーの座標の取得
+	XMFLOAT3 GetPlayerPosition() { return objPlayerRight->GetPosition(); }
 
-	// 注視点座標の取得
-	XMFLOAT3 GetTarget() { return camera->GetTarget(); }
+	// カメラの注視点座標の取得
+	XMFLOAT3 GetCameraTarget() { return camera->GetTarget(); }
 
 private: // メンバ変数
 	bool direction = 0;

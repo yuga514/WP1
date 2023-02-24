@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "DebugCamera.h"
 #include "WinApp.h"
+#include "StageOnePlayer.h"
 
 using namespace DirectX;
 
@@ -41,11 +42,11 @@ public: // メンバ関数
 	// 通常ブロックの着地
 	void Land();
 
-	// 座標の取得
-	XMFLOAT3 GetPosition() { return objPlayerRight->GetPosition(); }
+	// プレイヤーの座標の取得
+	XMFLOAT3 GetPlayerPosition() { return objPlayerRight->GetPosition(); }
 
-	// 注視点座標の取得
-	XMFLOAT3 GetTarget() { return camera->GetTarget(); }
+	// カメラの注視点座標の取得
+	XMFLOAT3 GetCameraTarget() { return camera->GetTarget(); }
 
 private: // メンバ変数
 	bool direction = 0;
@@ -71,4 +72,6 @@ private: // メンバ変数
 	Object3d* objPlayerLeft = nullptr;
 	Object3d* objAttack1 = nullptr;
 	Object3d* objAttack2 = nullptr;
+
+	StageOnePlayer* stageOnePlayer = nullptr;
 };

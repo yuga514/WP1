@@ -252,7 +252,7 @@ void TutorialPlayer::PlayerAction()
 	if (attackFlag == 1) {
 		PlayerRotation.y += 36.0f;
 		PlayerRotation.z = 0.0f;
-		if (PlayerRotation.y == 360) {
+		if (PlayerRotation.y == 720) {
 			PlayerRotation.y = 0.0f;
 			attackFlag = 0;
 		}

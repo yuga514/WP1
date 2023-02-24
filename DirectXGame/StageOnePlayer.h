@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "DebugCamera.h"
 #include "WinApp.h"
+#include "TutorialPlayer.h"
 
 using namespace DirectX;
 
@@ -47,20 +48,24 @@ public: // メンバ関数
 	// 壊れるブロックの着地
 	void CrushBrockLand();
 
-	// HPの取得
-	unsigned int GetHP() { return HP; }
+	// ダメージカウントの取得
+	unsigned int GetDamageCount() { return damageCount; }
 
-	// 座標の設定
-	void SetHP(unsigned int HP) { this->HP = HP; }
+	// アタックフラグの取得
+	unsigned int GetAttackFlag() { return attackFlag; }
 
-	// 座標の取得
-	XMFLOAT3 GetPosition() { return objPlayerRight->GetPosition(); }
+	// プレイヤーの座標の取得
+	XMFLOAT3 GetPlayerPosition() { return objPlayerRight->GetPosition(); }
 
-	// 注視点座標の取得
-	XMFLOAT3 GetTarget() { return camera->GetTarget(); }
+	// カメラの注視点座標の取得
+	XMFLOAT3 GetCameraTarget() { return camera->GetTarget(); }
+
+	// エネミーの座標の取得
+	XMFLOAT3 GetEnemyPosition1() { return objBrownEnemy[0]->GetPosition(); }
+	XMFLOAT3 GetEnemyPosition2() { return objBrownEnemy[1]->GetPosition(); }
+	XMFLOAT3 GetEnemyPosition3() { return objGrayEnemy->GetPosition(); }
 
 private: // メンバ変数
-	unsigned int HP = 5;
 	bool direction = 0;
 	float speed = 0.1f;
 	float jumpPower = 0;
@@ -104,4 +109,6 @@ private: // メンバ変数
 	Object3d* objGrayBrock[4] = {};
 	Object3d* objBrownEnemy[2] = {};
 	Object3d* objGrayEnemy = nullptr;
+
+	TutorialPlayer* tutorialPlayer = nullptr;
 };

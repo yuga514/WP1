@@ -113,7 +113,7 @@ void StageOnePlayer::Update()
 // •`‰æ
 void StageOnePlayer::Draw()
 {
-	if (damageCount % 2 == 0 && 0 < HP) {
+	if (damageCount % 2 == 0) {
 		if (direction == 0) {
 			objPlayerRight->Draw();
 		}
@@ -309,7 +309,7 @@ void StageOnePlayer::PlayerAction()
 	if (attackFlag == 1) {
 		PlayerRotation.y += 36.0f;
 		PlayerRotation.z = 0.0f;
-		if (PlayerRotation.y == 360) {
+		if (PlayerRotation.y == 720) {
 			PlayerRotation.y = 0.0f;
 			attackFlag = 0;
 		}
@@ -473,7 +473,7 @@ void StageOnePlayer::Collision()
 	if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
 		BrownEnemyPosition[0].x + 2 && PlayerPosition.y < 3 && brownEnemyFlag[0] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
-			damageCount = 30;
+			damageCount = 60;
 		}
 		if (0 < attackFlag) {
 			brownEnemyFlag[0] = 1;
@@ -482,7 +482,7 @@ void StageOnePlayer::Collision()
 	if (BrownEnemyPosition[1].x - 2 < PlayerPosition.x && PlayerPosition.x <
 		BrownEnemyPosition[1].x + 2 && PlayerPosition.y < 15 && brownEnemyFlag[1] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
-			damageCount = 30;
+			damageCount = 60;
 		}
 		if (0 < attackFlag) {
 			brownEnemyFlag[1] = 1;
@@ -491,7 +491,7 @@ void StageOnePlayer::Collision()
 	if (GrayEnemyPosition.x - 2 < PlayerPosition.x && PlayerPosition.x <
 		GrayEnemyPosition.x + 2 && PlayerPosition.y < 3 && grayEnemyFlag == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
-			damageCount = 30;
+			damageCount = 60;
 		}
 		if (attackFlag == 2) {
 			grayEnemyFlag = 1;
@@ -499,9 +499,6 @@ void StageOnePlayer::Collision()
 	}
 
 	// ƒ_ƒ[ƒWŠÖŒW
-	if (damageCount == 30) {
-		HP--;
-	}
 	if (0 < damageCount) {
 		damageCount--;
 	}
