@@ -206,8 +206,7 @@ void Model::Initialize(const std::string& modelname)
 				}
 				// インデックスデータの追加
 				if (faceIndexCount >= 3) {
-					// 四角形ポリゴンの4点目なので、
-					// 四角形の0,1,2,3の内 2,3,0で三角形を構築する
+					// 四角形ポリゴンの4点目なので、四角形の0,1,2,3の内2,3,0で三角形を構築する
 					mesh->AddIndex(indexCountTex - 1);
 					mesh->AddIndex(indexCountTex);
 					mesh->AddIndex(indexCountTex - 3);
@@ -359,13 +358,13 @@ void Model::CreateDescriptorHeap()
 	// マテリアルの数
 	size_t count = materials.size();
 
-	// デスクリプタヒープを生成	
+	// デスクリプタヒープを生成
 	if (count > 0) {
 		D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 		descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-		descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
+		descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; // シェーダから見えるように
 		descHeapDesc.NumDescriptors = (UINT)count; // シェーダーリソースビューの数
-		result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
+		result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap)); // 生成
 		if (FAILED(result)) {
 			assert(0);
 		}

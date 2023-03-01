@@ -48,20 +48,32 @@ public: // メンバ関数
 	// 壊れるブロックの着地
 	void CrushBrockLand();
 
+	// ダメージカウントのセット
+	void SetDamageCount() { damageCount = 60; }
+
 	// ダメージカウントの取得
 	unsigned int GetDamageCount() { return damageCount; }
 
 	// アタックフラグの取得
 	unsigned int GetAttackFlag() { return attackFlag; }
 
+	unsigned int GetEnemyFlag1() { return brownEnemyFlag[0]; }
+
+
+
+	unsigned int GetEnemyFlag2() { return brownEnemyFlag[1]; }
+	unsigned int GetEnemyFlag3() { return grayEnemyFlag; }
+
 	// プレイヤーの座標の取得
 	XMFLOAT3 GetPlayerPosition() { return objPlayerRight->GetPosition(); }
+	float GetPlayerPositionX() { return PlayerPosition.x; }
 
 	// カメラの注視点座標の取得
 	XMFLOAT3 GetCameraTarget() { return camera->GetTarget(); }
 
 	// エネミーの座標の取得
 	XMFLOAT3 GetEnemyPosition1() { return objBrownEnemy[0]->GetPosition(); }
+	float GetEnemyPosition1X() { return BrownEnemyPosition[0].x; }
 	XMFLOAT3 GetEnemyPosition2() { return objBrownEnemy[1]->GetPosition(); }
 	XMFLOAT3 GetEnemyPosition3() { return objGrayEnemy->GetPosition(); }
 

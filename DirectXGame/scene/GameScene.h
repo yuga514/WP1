@@ -71,6 +71,7 @@ private: // メンバ変数
 	unsigned int scene = 0;
 	unsigned int HP = 5;
 	unsigned int bossHP = 15;
+	unsigned int damageCount = 0;
 
 	Sprite* title = nullptr;
 	Sprite* HP5 = nullptr;

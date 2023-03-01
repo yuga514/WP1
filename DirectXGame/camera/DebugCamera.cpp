@@ -25,7 +25,7 @@ void DebugCamera::Update()
 	Input::MouseMove mouseMove = input->GetMouseMove();
 
 	// マウスの左ボタンが押されていたらカメラを回転させる
-	if (input->PushMouseLeft())
+	if (input->PushMouse(0))
 	{
 		float dy = mouseMove.lX * scaleY;
 		float dx = mouseMove.lY * scaleX;
@@ -36,7 +36,7 @@ void DebugCamera::Update()
 	}
 
 	// マウスの中ボタンが押されていたらカメラを並行移動させる
-	if (input->PushMouseMiddle())
+	if (input->PushMouse(2))
 	{
 		float dx = mouseMove.lX / 100.0f;
 		float dy = mouseMove.lY / 100.0f;
@@ -61,8 +61,6 @@ void DebugCamera::Update()
 		matRotNew *= XMMatrixRotationX(-angleX);
 		matRotNew *= XMMatrixRotationY(-angleY);
 		// 累積の回転行列を合成
-		// ※回転行列を累積していくと、誤差でスケーリングがかかる危険がある為
-		// クォータニオンを使用する方が望ましい
 		matRot = matRotNew * matRot;
 
 		// 注視点から視点へのベクトルと、上方向ベクトル

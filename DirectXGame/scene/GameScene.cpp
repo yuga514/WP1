@@ -121,12 +121,15 @@ void GameScene::Update()
 	case 1:
 		// 再生
 		audio->SoundPlayWave("bgm.wav", true);
+		// HPが0になったら
+		if (HP == 0) { scene = 5; }
 		// アップデート
 		tutorialPlayer->Update();
 		tutorialMap->Update();
 		break;
 	case 2:
 		// アップデート
+		Collision();
 		stageOnePlayer->Update();
 		stageOneMap->Update();
 		break;
@@ -139,6 +142,9 @@ void GameScene::Update()
 		// アップデート
 		stageThreePlayer->Update();
 		stageThreeMap->Update();
+		if (input->PushKey(DIK_SPACE)) {
+			bossHP = 0;
+		}
 		break;
 	case 5:
 		audio->SoundStop("bgm.wav");
@@ -236,7 +242,12 @@ void GameScene::Draw()
 	case 0:
 		break;
 	case 1:
-		HP5->Draw();
+		if (HP == 5) { HP5->Draw(); }
+		if (HP == 4) { HP4->Draw(); }
+		if (HP == 3) { HP3->Draw(); }
+		if (HP == 2) { HP2->Draw(); }
+		if (HP == 1) { HP1->Draw(); }
+		if (HP == 0) { HP0->Draw(); }
 		break;
 	case 2:
 		if (HP == 5) { HP5->Draw(); }
@@ -283,19 +294,26 @@ void GameScene::Collision()
 		// エネミーの当たり判定
 		XMFLOAT3 PlayerPosition = stageOnePlayer->GetPlayerPosition();
 		XMFLOAT3 EnemyPosition1 = stageOnePlayer->GetEnemyPosition1();
-		unsigned int a = stageOnePlayer->GetDamageCount();
+		if (EnemyPosition1.x == 0) {
+			EnemyPosition1 = { 27, 0, 0 };
+		}
 
-		/*if (EnemyPosition1.x - 2 < PlayerPosition.x && PlayerPosition.x <
-			EnemyPosition1.x + 2 && PlayerPosition.y < 3 && brownEnemyFlag[0] == 0) {
-			if (stageOnePlayer->GetAttackFlag() == 0 && stageOnePlayer->GetDamageCount() == 0) {
-				damageCount = 60;
-			}
-			if (0 < attackFlag) {
-				brownEnemyFlag[0] = 1;
-			}
-		}*/
-		if (a < 60) {
+		unsigned int A = stageOnePlayer->GetAttackFlag();
+		unsigned int E = stageOnePlayer->GetEnemyFlag1();
+		unsigned int D = stageOnePlayer->GetDamageCount();
+
+		if (EnemyPosition1.x - 2 < PlayerPosition.x && PlayerPosition.x <
+			EnemyPosition1.x + 2 && PlayerPosition.y < 3 && E == 0 && A == 0 && D == 0) {
+			stageOnePlayer->SetDamageCount();
+		}
+
+		if (D == 60) {
 			HP--;
+		}
+
+		// ダメージ関係
+		if (0 < D) {
+			D--;
 		}
 	}
 	if (scene == 4) {

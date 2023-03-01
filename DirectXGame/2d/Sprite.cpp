@@ -85,12 +85,12 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ // xy座標(1行で書いたほうが見やすい)
+		{ // xy座標
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		{ // uv座標(1行で書いたほうが見やすい)
+		{ // uv座標
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
@@ -142,7 +142,7 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 
 	// デスクリプタレンジ
 	CD3DX12_DESCRIPTOR_RANGE descRangeSRV;
-	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
+	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0レジスタ
 
 	// ルートパラメータ
 	CD3DX12_ROOT_PARAMETER rootparams[2];
@@ -186,7 +186,7 @@ bool Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window
 		(float)window_height, 0.0f,
 		0.0f, 1.0f);
 
-	// デスクリプタヒープを生成	
+	// デスクリプタヒープを生成
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE; // シェーダから見えるように
@@ -265,7 +265,7 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t* filename)
 	srvDesc.Texture2D.MipLevels = 1;
 
 	device->CreateShaderResourceView(texBuff[texnumber].Get(), // ビューと関連付けるバッファ
-		&srvDesc, //テクスチャ設定情報
+		&srvDesc, // テクスチャ設定情報
 		CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap->GetCPUDescriptorHandleForHeapStart(), texnumber, descriptorHandleIncrementSize)
 	);
 
@@ -458,7 +458,7 @@ void Sprite::Draw()
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->color = this->color;
-		constMap->mat = this->matWorld * matProjection;	// 行列の合成	
+		constMap->mat = this->matWorld * matProjection;	// 行列の合成
 		this->constBuff->Unmap(0, nullptr);
 	}
 

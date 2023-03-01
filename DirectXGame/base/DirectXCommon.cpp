@@ -129,7 +129,7 @@ bool DirectXCommon::InitializeDXGIDevice()
 
 #ifdef _DEBUG
 	ComPtr<ID3D12Debug> debugController;
-	// デバッグレイヤーをオンに	
+	// デバッグレイヤーをオンに
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
@@ -218,7 +218,7 @@ bool DirectXCommon::CreateSwapChain()
 	swapchainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;	// バックバッファとして使えるように
 	swapchainDesc.BufferCount = 2; // バッファ数を2つに設定
 	swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ後は速やかに破棄
-	swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH; // フルスクリーン切り替えを許可	
+	swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH; // フルスクリーン切り替えを許可
 	ComPtr<IDXGISwapChain1> swapchain1;
 	HWND hwnd = winApp->GetHwnd();
 	result = dxgiFactory->CreateSwapChainForHwnd(

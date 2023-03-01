@@ -8,53 +8,36 @@ bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
 {
 	HRESULT result = S_FALSE;
 
-	// DirectInputオブジェクトの生成	
+	// DirectInputオブジェクトの生成
 	result = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
 
-	// キーボードデバイスの生成	
+	// キーボードデバイスの生成
 	result = dinput->CreateDevice(GUID_SysKeyboard, &devKeyboard, NULL);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
 
-	// マウスデバイスの生成	
+	// マウスデバイスの生成
 	result = dinput->CreateDevice(GUID_SysMouse, &devMouse, NULL);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
+
+	// ジョイスティックデバイスの生成
+	result = dinput->CreateDevice(GUID_Joystick, &devJoystick, NULL);
 
 	// 入力データ形式のセット
 	result = devKeyboard->SetDataFormat(&c_dfDIKeyboard); // 標準形式
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
 
 	// 排他制御レベルのセット
 	result = devKeyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
 
 	// 入力データ形式のセット
 	result = devMouse->SetDataFormat(&c_dfDIMouse2); // 標準形式
-	if (FAILED(result)) {
-		assert(0);
-		return result;
-	}
 
 	// 排他制御レベルのセット
 	result = devMouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-	if (FAILED(result)) {
-		assert(0);
-		return result;
+
+	if (devJoystick != NULL) {
+		// 入力データ形式のセット
+		result = devJoystick->SetDataFormat(&c_dfDIJoystick2); // 標準形式
+
+		// 排他制御レベルのセット
+		result = devJoystick->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	}
 
 	return true;
@@ -82,6 +65,16 @@ void Input::Update()
 
 		// マウスの入力
 		result = devMouse->GetDeviceState(sizeof(mouseState), &mouseState);
+	}
+
+	if (devJoystick != NULL) { // ジョイスティック
+		result = devJoystick->Acquire(); // ジョイスティック動作開始
+
+		// 前回の入力を保存
+		joyStatePre = joyState;
+
+		// ジョイスティックの入力
+		result = devJoystick->GetDeviceState(sizeof(joyState), &joyState);
 	}
 }
 
@@ -113,10 +106,10 @@ bool Input::TriggerKey(BYTE keyNumber)
 	return false;
 }
 
-bool Input::PushMouseLeft()
+bool Input::PushMouse(UINT mouseNumber)
 {
 	// 0でなければ押している
-	if (mouseState.rgbButtons[0]) {
+	if (mouseState.rgbButtons[mouseNumber]) {
 		return true;
 	}
 
@@ -124,21 +117,10 @@ bool Input::PushMouseLeft()
 	return false;
 }
 
-bool Input::PushMouseMiddle()
-{
-	// 0でなければ押している
-	if (mouseState.rgbButtons[2]) {
-		return true;
-	}
-
-	// 押していない
-	return false;
-}
-
-bool Input::TriggerMouseLeft()
+bool Input::TriggerMouse(UINT mouseNumber)
 {
 	// 前回が0で、今回が0でなければトリガー
-	if (!mouseStatePre.rgbButtons[0] && mouseState.rgbButtons[0]) {
+	if (!mouseStatePre.rgbButtons[mouseNumber] && mouseState.rgbButtons[mouseNumber]) {
 		return true;
 	}
 
@@ -146,10 +128,43 @@ bool Input::TriggerMouseLeft()
 	return false;
 }
 
-bool Input::TriggerMouseMiddle()
+bool Input::PushButton(UINT buttonNumber)
+{
+	// 0でなければ押している
+	if (joyState.rgbButtons[buttonNumber]) {
+		return true;
+	}
+
+	// 押していない
+	return false;
+}
+
+bool Input::TriggerButton(UINT buttonNumber)
 {
 	// 前回が0で、今回が0でなければトリガー
-	if (!mouseStatePre.rgbButtons[2] && mouseState.rgbButtons[2]) {
+	if (!joyStatePre.rgbButtons[buttonNumber] && joyState.rgbButtons[buttonNumber]) {
+		return true;
+	}
+
+	// トリガーでない
+	return false;
+}
+
+bool Input::PushArrow(UINT arrowNumber)
+{
+	// 0でなければ押している
+	if (joyState.rgdwPOV[0] == arrowNumber * 4500) {
+		return true;
+	}
+
+	// 押していない
+	return false;
+}
+
+bool Input::TriggerArrow(UINT arrowNumber)
+{
+	// 前回が0で、今回が0でなければトリガー
+	if (!joyStatePre.rgdwPOV[0] && joyState.rgdwPOV[0] == arrowNumber * 4500) {
 		return true;
 	}
 
@@ -163,5 +178,14 @@ Input::MouseMove Input::GetMouseMove()
 	tmp.lX = mouseState.lX;
 	tmp.lY = mouseState.lY;
 	tmp.lZ = mouseState.lZ;
+	return tmp;
+}
+
+Input::StickMove Input::GetStickMove()
+{
+	StickMove tmp;
+	tmp.lX = joyState.lX;
+	tmp.lY = joyState.lY;
+	tmp.lZ = joyState.lZ;
 	return tmp;
 }

@@ -1,6 +1,6 @@
 ﻿#include "WinApp.h"
 
-const wchar_t WinApp::windowClassName[] = L"タピおの大冒険";
+const wchar_t WinApp::windowClassName[] = L"DirectXGame";
 
 // ウィンドウプロシージャ
 LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

@@ -2,16 +2,21 @@
 
 #include <Windows.h>
 #include <wrl.h>
+
 #define DIRECTINPUT_VERSION 0x0800 // DirectInputのバージョン指定
 #include <dinput.h>
-
-
 
 // 入力
 class Input
 {
 public:
 	struct MouseMove {
+		LONG lX;
+		LONG lY;
+		LONG lZ;
+	};
+
+	struct StickMove {
 		LONG lX;
 		LONG lY;
 		LONG lZ;
@@ -34,20 +39,29 @@ public: // メンバ関数
 	// キーのトリガーをチェック
 	bool TriggerKey(BYTE keyNumber);
 
-	// キーの左ボタン押下をチェック
-	bool PushMouseLeft();
+	// マウスの押下をチェック
+	bool PushMouse(UINT mouseNumber);
 
-	// キーの中ボタン押下をチェック
-	bool PushMouseMiddle();
+	// マウスのトリガーをチェック
+	bool TriggerMouse(UINT mouseNumber);
 
-	// キーの左ボタントリガーをチェック
-	bool TriggerMouseLeft();
+	// ボタンの押下をチェック
+	bool PushButton(UINT buttonNumber);
 
-	// キーの中ボタントリガーをチェック
-	bool TriggerMouseMiddle();
+	// ボタンのトリガーをチェック
+	bool TriggerButton(UINT buttonNumber);
+
+	// 十字キーの押下をチェック
+	bool PushArrow(UINT arrowNumber);
+
+	// 十字キーのトリガーをチェック
+	bool TriggerArrow(UINT arrowNumber);
 
 	// マウス移動量を取得
 	MouseMove GetMouseMove();
+
+	// スティック移動量を取得
+	StickMove GetStickMove();
 
 private: // メンバ変数
 	ComPtr<IDirectInput8> dinput;
@@ -57,4 +71,7 @@ private: // メンバ変数
 	ComPtr<IDirectInputDevice8> devMouse;
 	DIMOUSESTATE2 mouseState = {};
 	DIMOUSESTATE2 mouseStatePre = {};
+	ComPtr<IDirectInputDevice8> devJoystick;
+	DIJOYSTATE2 joyState = {};
+	DIJOYSTATE2 joyStatePre = {};
 };

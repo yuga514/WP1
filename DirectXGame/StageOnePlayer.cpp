@@ -470,7 +470,7 @@ void StageOnePlayer::Collision()
 	}
 
 	// エネミーの当たり判定
-	if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
+	/*if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
 		BrownEnemyPosition[0].x + 2 && PlayerPosition.y < 3 && brownEnemyFlag[0] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
 			damageCount = 60;
@@ -496,7 +496,7 @@ void StageOnePlayer::Collision()
 		if (attackFlag == 2) {
 			grayEnemyFlag = 1;
 		}
-	}
+	}*/
 
 	// ダメージ関係
 	if (0 < damageCount) {
