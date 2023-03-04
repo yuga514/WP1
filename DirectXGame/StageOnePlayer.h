@@ -5,7 +5,6 @@
 #include "Input.h"
 #include "DebugCamera.h"
 #include "WinApp.h"
-#include "TutorialPlayer.h"
 
 using namespace DirectX;
 
@@ -121,6 +120,4 @@ private: // ƒƒ“ƒo•Ï”
 	Object3d* objGrayBrock[4] = {};
 	Object3d* objBrownEnemy[2] = {};
 	Object3d* objGrayEnemy = nullptr;
-
-	TutorialPlayer* tutorialPlayer = nullptr;
 };

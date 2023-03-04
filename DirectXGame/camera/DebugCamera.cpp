@@ -22,10 +22,10 @@ void DebugCamera::Update()
 	float angleY = 0;
 
 	// マウスの入力を取得
-	Input::MouseMove mouseMove = input->GetMouseMove();
+	//Input::MouseMove mouseMove = input->GetMouseMove();
 
 	// マウスの左ボタンが押されていたらカメラを回転させる
-	if (input->PushMouse(0))
+	/*if (input->PushMouse(0))
 	{
 		float dy = mouseMove.lX * scaleY;
 		float dx = mouseMove.lY * scaleX;
@@ -33,10 +33,10 @@ void DebugCamera::Update()
 		angleX = -dx * XM_PI;
 		angleY = -dy * XM_PI;
 		dirty = true;
-	}
+	}*/
 
 	// マウスの中ボタンが押されていたらカメラを並行移動させる
-	if (input->PushMouse(2))
+	/*if (input->PushMouse(2))
 	{
 		float dx = mouseMove.lX / 100.0f;
 		float dy = mouseMove.lY / 100.0f;
@@ -46,14 +46,14 @@ void DebugCamera::Update()
 
 		MoveVector(move);
 		dirty = true;
-	}
+	}*/
 
 	// ホイール入力で距離を変更
-	if (mouseMove.lZ != 0) {
+	/*if (mouseMove.lZ != 0) {
 		distance -= mouseMove.lZ / 100.0f;
 		distance = max(distance, 1.0f);
 		dirty = true;
-	}
+	}*/
 
 	if (dirty || viewDirty) {
 		// 追加回転分の回転行列を生成

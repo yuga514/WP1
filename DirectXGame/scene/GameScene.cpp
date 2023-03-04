@@ -337,7 +337,9 @@ void GameScene::SceneChange()
 	}
 	if (scene == 1) {
 		XMFLOAT3 PlayerPosition = tutorialPlayer->GetPlayerPosition();
-		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
+		Input::StickMove stickMove = input->GetStickMove();
+		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4 ||
+			22767 < stickMove.lY && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
 			scene = 2;
 		}
 	}

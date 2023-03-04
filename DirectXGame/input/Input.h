@@ -63,6 +63,9 @@ public: // メンバ関数
 	// スティック移動量を取得
 	StickMove GetStickMove();
 
+	// ジョイスティックのポインタを取得
+	ComPtr<IDirectInputDevice8> GetDevJoyStick() { return devJoystick; }
+
 private: // メンバ変数
 	ComPtr<IDirectInput8> dinput;
 	ComPtr<IDirectInputDevice8> devKeyboard;

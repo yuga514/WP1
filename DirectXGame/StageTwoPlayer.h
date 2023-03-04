@@ -5,7 +5,6 @@
 #include "Input.h"
 #include "DebugCamera.h"
 #include "WinApp.h"
-#include "StageOnePlayer.h"
 
 using namespace DirectX;
 
@@ -72,6 +71,4 @@ private: // ƒƒ“ƒo•Ï”
 	Object3d* objPlayerLeft = nullptr;
 	Object3d* objAttack1 = nullptr;
 	Object3d* objAttack2 = nullptr;
-
-	StageOnePlayer* stageOnePlayer = nullptr;
 };

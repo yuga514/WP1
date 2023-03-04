@@ -320,7 +320,7 @@ void StageOnePlayer::PlayerAction()
 		PlayerRotation.z = 0.0f;
 	}
 
-	// プレイヤーが凹んでいたら
+	// プレイヤーが凹んだら
 	if (PlayerScale.y < 1) {
 		PlayerScale.x -= 0.1f;
 		PlayerScale.y += 0.1f;
