@@ -56,8 +56,8 @@ public: // メンバ関数
 	// シーン切り替え
 	void SceneChange();
 
-	// カメラ移動
-	void CameraMove();
+	// カメラのセット
+	void SetCameraTarget();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;

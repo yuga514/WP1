@@ -131,6 +131,9 @@ void StageTwoPlayer::Setter()
 // プレイヤーのアクション
 void StageTwoPlayer::PlayerAction()
 {
+	// スティックの入力を取得
+	Input::StickMove stickMove = input->GetStickMove();
+
 	// 落下処理
 	PlayerPosition.y -= jumpPower;
 
@@ -138,24 +141,30 @@ void StageTwoPlayer::PlayerAction()
 	jumpPower += 0.01f;
 
 	// 右移動
-	if (input->PushKey(DIK_RIGHT)) {
+	if (input->PushKey(DIK_RIGHT) || 42767 < stickMove.lX && input->GetDevJoyStick()) {
 		PlayerPosition.x += speed;
 		PlayerRotation.z -= 3.6f;
 		direction = 0;
 	}
 
 	// 左移動
-	if (input->PushKey(DIK_LEFT)) {
+	if (input->PushKey(DIK_LEFT) || stickMove.lX < 22767 && input->GetDevJoyStick()) {
 		PlayerPosition.x -= speed;
 		PlayerRotation.z += 3.6f;
 		direction = 1;
 	}
 
 	// ダッシュ
-	if (input->PushKey(DIK_X) && jumpCount == 0 || input->PushKey(DIK_X) && jumpCount == 3) {
+	if (input->PushKey(DIK_LSHIFT) && jumpCount == 0 ||
+		input->PushKey(DIK_LSHIFT) && jumpCount == 3 ||
+		input->PushButton(4) && jumpCount == 0 && input->GetDevJoyStick() ||
+		input->PushButton(4) && jumpCount == 3 && input->GetDevJoyStick()) {
 		speed = 0.2f;
 	}
-	if (input->PushKey(DIK_X) == 0 && jumpCount == 0 || input->PushKey(DIK_X) == 0 && jumpCount == 3) {
+	else if (input->PushKey(DIK_LSHIFT) == 0 && jumpCount == 0 ||
+		input->PushKey(DIK_LSHIFT) == 0 && jumpCount == 3 ||
+		input->PushButton(4) == 0 && jumpCount == 0 && input->GetDevJoyStick() ||
+		input->PushButton(4) == 0 && jumpCount == 3 && input->GetDevJoyStick()) {
 		speed = 0.1f;
 	}
 
@@ -166,11 +175,13 @@ void StageTwoPlayer::PlayerAction()
 	}
 
 	// ジャンプ
-	if (input->TriggerKey(DIK_Z) && jumpCount < 2 && speed == 0.2f) {
+	if (input->TriggerKey(DIK_Z) && jumpCount < 2 && speed == 0.2f ||
+		input->TriggerButton(0) && jumpCount < 2 && speed == 0.2f && input->GetDevJoyStick()) {
 		jumpCount += 1;
 		jumpPower = -0.35f;
 	}
-	else if (input->TriggerKey(DIK_Z) && jumpCount < 2 && speed == 0.1f) {
+	else if (input->TriggerKey(DIK_Z) && jumpCount < 2 && speed == 0.1f ||
+		input->TriggerButton(0) && jumpCount < 2 && speed == 0.1f && input->GetDevJoyStick()) {
 		jumpCount += 1;
 		jumpPower = -0.3f;
 	}
@@ -184,10 +195,12 @@ void StageTwoPlayer::PlayerAction()
 	}
 
 	// 攻撃
-	if (input->TriggerKey(DIK_X) && input->PushKey(DIK_DOWN) && jumpCount == 2 && attackFlag == 0) {
+	if (input->TriggerKey(DIK_X) && input->PushKey(DIK_DOWN) && jumpCount == 2 && attackFlag == 0 ||
+		input->TriggerButton(1) && 42767 < stickMove.lY &&
+		jumpCount == 2 && attackFlag == 0 && input->GetDevJoyStick()) {
 		attackFlag = 2;
 	}
-	else if (input->TriggerKey(DIK_X) && attackFlag == 0) {
+	else if (input->TriggerKey(DIK_X) && attackFlag == 0 || input->TriggerButton(1) && attackFlag == 0) {
 		attackFlag = 1;
 	}
 	if (attackFlag == 1) {

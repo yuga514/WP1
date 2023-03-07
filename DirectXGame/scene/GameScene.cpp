@@ -152,8 +152,8 @@ void GameScene::Update()
 	case 6:
 		break;
 	}
-	// カメラ移動
-	CameraMove();
+	// カメラのセット
+	SetCameraTarget();
 	// シーンチェンジ
 	SceneChange();
 	// アップデート
@@ -331,7 +331,7 @@ void GameScene::Collision()
 void GameScene::SceneChange()
 {
 	if (scene == 0) {
-		if (input->TriggerKey(DIK_SPACE)) {
+		if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(0)) {
 			scene = 1;
 		}
 	}
@@ -339,19 +339,23 @@ void GameScene::SceneChange()
 		XMFLOAT3 PlayerPosition = tutorialPlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
 		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4 ||
-			22767 < stickMove.lY && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
+			stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
 			scene = 2;
 		}
 	}
 	if (scene == 2) {
 		XMFLOAT3 PlayerPosition = stageOnePlayer->GetPlayerPosition();
-		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
+		Input::StickMove stickMove = input->GetStickMove();
+		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4 ||
+			stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
 			scene = 3;
 		}
 	}
 	if (scene == 3) {
 		XMFLOAT3 PlayerPosition = stageTwoPlayer->GetPlayerPosition();
-		if (input->TriggerKey(DIK_UP) && 37 < PlayerPosition.x && PlayerPosition.x < 41 && PlayerPosition.y < 4) {
+		Input::StickMove stickMove = input->GetStickMove();
+		if (input->TriggerKey(DIK_UP) && 37 < PlayerPosition.x && PlayerPosition.x < 41 && PlayerPosition.y < 4 ||
+			stickMove.lY == 0 && 37 < PlayerPosition.x && PlayerPosition.x < 41 && PlayerPosition.y < 4) {
 			scene = 4;
 		}
 	}
@@ -362,8 +366,8 @@ void GameScene::SceneChange()
 	}
 }
 
-// チュートリアルのカメラをセット
-void GameScene::CameraMove()
+// カメラのセット
+void GameScene::SetCameraTarget()
 {
 	if (scene == 1) {
 		XMFLOAT3 CameraPosition = tutorialPlayer->GetCameraTarget();
