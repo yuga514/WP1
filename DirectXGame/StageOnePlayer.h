@@ -47,34 +47,30 @@ public: // メンバ関数
 	// 壊れるブロックの着地
 	void CrushBrockLand();
 
-	// ダメージカウントのセット
-	void SetDamageCount() { damageCount = 60; }
-
-	// ダメージカウントの取得
-	unsigned int GetDamageCount() { return damageCount; }
-
 	// アタックフラグの取得
 	unsigned int GetAttackFlag() { return attackFlag; }
 
+	// エネミーフラグの取得
 	unsigned int GetEnemyFlag1() { return brownEnemyFlag[0]; }
-
-
-
 	unsigned int GetEnemyFlag2() { return brownEnemyFlag[1]; }
 	unsigned int GetEnemyFlag3() { return grayEnemyFlag; }
 
 	// プレイヤーの座標の取得
 	XMFLOAT3 GetPlayerPosition() { return objPlayerRight->GetPosition(); }
-	float GetPlayerPositionX() { return PlayerPosition.x; }
+
+	// エネミーの座標の取得
+	XMFLOAT3 GetEnemyPosition1() { return objBrownEnemy[0]->GetPosition(); }
+	XMFLOAT3 GetEnemyPosition2() { return objBrownEnemy[1]->GetPosition(); }
+	XMFLOAT3 GetEnemyPosition3() { return objGrayEnemy->GetPosition(); }
 
 	// カメラの注視点座標の取得
 	XMFLOAT3 GetCameraTarget() { return camera->GetTarget(); }
 
-	// エネミーの座標の取得
-	XMFLOAT3 GetEnemyPosition1() { return objBrownEnemy[0]->GetPosition(); }
-	float GetEnemyPosition1X() { return BrownEnemyPosition[0].x; }
-	XMFLOAT3 GetEnemyPosition2() { return objBrownEnemy[1]->GetPosition(); }
-	XMFLOAT3 GetEnemyPosition3() { return objGrayEnemy->GetPosition(); }
+	// デスフラグの取得
+	bool GetDeathFlag() { return deathFlag; }
+
+	// デスフラグの設定
+	void SetDeathFlag() { deathFlag = 1; }
 
 private: // メンバ変数
 	bool direction = 0;
@@ -89,6 +85,7 @@ private: // メンバ変数
 	bool grayEnemyFlag = 0;
 	bool brownEnemyMoveFlag[2] = {};
 	bool grayEnemyMoveFlag = 0;
+	bool deathFlag = 0;
 
 	XMFLOAT3 CameraPosition = { 21, 8.3f, -20 };
 	XMFLOAT3 PlayerPosition = { 0,0,0 };

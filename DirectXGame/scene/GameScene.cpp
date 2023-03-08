@@ -114,48 +114,37 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 void GameScene::Update()
 {
-	switch (scene)
-	{
-	case 0:
-		break;
-	case 1:
+	if (scene == 1) {
 		// 再生
 		audio->SoundPlayWave("bgm.wav", true);
-		// HPが0になったら
-		if (HP == 0) { scene = 5; }
-		// アップデート
+
 		tutorialPlayer->Update();
 		tutorialMap->Update();
-		break;
-	case 2:
-		// アップデート
-		Collision();
+	}
+	if (scene == 2) {
 		stageOnePlayer->Update();
 		stageOneMap->Update();
-		break;
-	case 3:
-		// アップデート
+	}
+	if (scene == 3) {
 		stageTwoPlayer->Update();
 		stageTwoMap->Update();
-		break;
-	case 4:
-		// アップデート
+	}
+	if (scene == 4) {
 		stageThreePlayer->Update();
 		stageThreeMap->Update();
 		if (input->PushKey(DIK_SPACE)) {
 			bossHP = 0;
 		}
-		break;
-	case 5:
-		audio->SoundStop("bgm.wav");
-		break;
-	case 6:
-		break;
 	}
-	// カメラのセット
-	SetCameraTarget();
+	if (scene == 5) {
+		audio->SoundStop("bgm.wav");
+	}
+	// 当たり判定
+	Collision();
 	// シーンチェンジ
 	SceneChange();
+	// カメラのセット
+	SetCameraTarget();
 	// アップデート
 	camera->Update();
 }
@@ -169,30 +158,13 @@ void GameScene::Draw()
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 
-	switch (scene)
-	{
-	case 0:
-		title->Draw();
-		break;
-	case 1:
-		background1->Draw();
-		break;
-	case 2:
-		background2->Draw();
-		break;
-	case 3:
-		background3->Draw();
-		break;
-	case 4:
-		background4->Draw();
-		break;
-	case 5:
-		gameclear->Draw();
-		break;
-	case 6:
-		gameover->Draw();
-		break;
-	}
+	if (scene == 0) { title->Draw(); }
+	if (scene == 1) { background1->Draw(); }
+	if (scene == 2) { background2->Draw(); }
+	if (scene == 3) { background3->Draw(); }
+	if (scene == 4) { background4->Draw(); }
+	if (scene == 5) { gameclear->Draw(); }
+	if (scene == 6) { gameover->Draw(); }
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -204,30 +176,21 @@ void GameScene::Draw()
 	// 3Dオブジェクトの描画
 	Object3d::PreDraw(cmdList);
 
-	switch (scene)
-	{
-	case 0:
-		break;
-	case 1:
-		tutorialPlayer->Draw();
+	if (scene == 1) {
 		tutorialMap->Draw();
-		break;
-	case 2:
-		stageOnePlayer->Draw();
+		tutorialPlayer->Draw();
+	}
+	if (scene == 2) {
 		stageOneMap->Draw();
-		break;
-	case 3:
-		stageTwoPlayer->Draw();
+		stageOnePlayer->Draw();
+	}
+	if (scene == 3) {
 		stageTwoMap->Draw();
-		break;
-	case 4:
-		stageThreePlayer->Draw();
+		stageTwoPlayer->Draw();
+	}
+	if (scene == 4) {
 		stageThreeMap->Draw();
-		break;
-	case 5:
-		break;
-	case 6:
-		break;
+		stageThreePlayer->Draw();
 	}
 
 	Object3d::PostDraw();
@@ -237,46 +200,13 @@ void GameScene::Draw()
 	// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 
-	switch (scene)
-	{
-	case 0:
-		break;
-	case 1:
+	if (0 < scene && scene < 5) {
 		if (HP == 5) { HP5->Draw(); }
 		if (HP == 4) { HP4->Draw(); }
 		if (HP == 3) { HP3->Draw(); }
 		if (HP == 2) { HP2->Draw(); }
 		if (HP == 1) { HP1->Draw(); }
 		if (HP == 0) { HP0->Draw(); }
-		break;
-	case 2:
-		if (HP == 5) { HP5->Draw(); }
-		if (HP == 4) { HP4->Draw(); }
-		if (HP == 3) { HP3->Draw(); }
-		if (HP == 2) { HP2->Draw(); }
-		if (HP == 1) { HP1->Draw(); }
-		if (HP == 0) { HP0->Draw(); }
-		break;
-	case 3:
-		if (HP == 5) { HP5->Draw(); }
-		if (HP == 4) { HP4->Draw(); }
-		if (HP == 3) { HP3->Draw(); }
-		if (HP == 2) { HP2->Draw(); }
-		if (HP == 1) { HP1->Draw(); }
-		if (HP == 0) { HP0->Draw(); }
-		break;
-	case 4:
-		if (HP == 5) { HP5->Draw(); }
-		if (HP == 4) { HP4->Draw(); }
-		if (HP == 3) { HP3->Draw(); }
-		if (HP == 2) { HP2->Draw(); }
-		if (HP == 1) { HP1->Draw(); }
-		if (HP == 0) { HP0->Draw(); }
-		break;
-	case 5:
-		break;
-	case 6:
-		break;
 	}
 
 	// デバッグテキストの描画
@@ -291,35 +221,47 @@ void GameScene::Draw()
 void GameScene::Collision()
 {
 	if (scene == 2) {
-		// エネミーの当たり判定
 		XMFLOAT3 PlayerPosition = stageOnePlayer->GetPlayerPosition();
-		XMFLOAT3 EnemyPosition1 = stageOnePlayer->GetEnemyPosition1();
-		if (EnemyPosition1.x == 0) {
-			EnemyPosition1 = { 27, 0, 0 };
+		XMFLOAT3 EnemyPosition[3] = { stageOnePlayer->GetEnemyPosition1(),
+			stageOnePlayer->GetEnemyPosition2(),stageOnePlayer->GetEnemyPosition3() };
+		// 初期値を設定
+		if (EnemyPosition[0].x == 0) {
+			EnemyPosition[0] = { 27, 0, 0 };
+			EnemyPosition[1] = { 45, 12, 0 };
+			EnemyPosition[2] = { 63, 0, 0 };
 		}
 
-		unsigned int A = stageOnePlayer->GetAttackFlag();
-		unsigned int E = stageOnePlayer->GetEnemyFlag1();
-		unsigned int D = stageOnePlayer->GetDamageCount();
-
-		if (EnemyPosition1.x - 2 < PlayerPosition.x && PlayerPosition.x <
-			EnemyPosition1.x + 2 && PlayerPosition.y < 3 && E == 0 && A == 0 && D == 0) {
-			stageOnePlayer->SetDamageCount();
+		// エネミーの当たり判定
+		if (EnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x < EnemyPosition[0].x + 2 &&
+			PlayerPosition.y < 3 && stageOnePlayer->GetEnemyFlag1() == 0 &&
+			stageOnePlayer->GetAttackFlag() == 0 && damageCount == 0) {
+			damageCount = 120;
+		}
+		if (EnemyPosition[1].x - 2 < PlayerPosition.x && PlayerPosition.x < EnemyPosition[1].x + 2 &&
+			PlayerPosition.y < 15 && stageOnePlayer->GetEnemyFlag2() == 0 &&
+			stageOnePlayer->GetAttackFlag() == 0 && damageCount == 0) {
+			damageCount = 120;
+		}
+		if (EnemyPosition[2].x - 2 < PlayerPosition.x && PlayerPosition.x < EnemyPosition[2].x + 2 &&
+			PlayerPosition.y < 3 && stageOnePlayer->GetEnemyFlag3() == 0 &&
+			stageOnePlayer->GetAttackFlag() == 0 && damageCount == 0) {
+			damageCount = 120;
 		}
 
-		if (D == 60) {
+		// HPを減らす
+		if (damageCount == 120) {
 			HP--;
 		}
-
-		// ダメージ関係
-		if (0 < D) {
-			D--;
+		// ダメージカウントを減らす
+		if (0 < damageCount) {
+			damageCount--;
 		}
 	}
+
 	if (scene == 4) {
-		// エネミーの当たり判定
 		XMFLOAT3 PlayerPosition = stageThreePlayer->GetPlayerPosition();
 		XMFLOAT3 EnemyPosition = stageThreePlayer->GetBossPosition();
+		// エネミーの当たり判定
 		if (EnemyPosition.x - 3 < PlayerPosition.x && PlayerPosition.x <
 			EnemyPosition.x + 3 && PlayerPosition.y < 4 && input->TriggerKey(DIK_X)) {
 			bossHP--;
@@ -363,6 +305,14 @@ void GameScene::SceneChange()
 		if (bossHP == 0) {
 			scene = 5;
 		}
+	}
+	// 死んだら
+	if (HP == 0) {
+		if (scene == 2) { stageOnePlayer->SetDeathFlag(); }
+		audio->SoundStop("bgm.wav");
+	}
+	if (stageOnePlayer->GetDeathFlag() == 1 && damageCount == 0) {
+		scene = 6;
 	}
 }
 

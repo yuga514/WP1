@@ -80,7 +80,8 @@ void StageOnePlayer::Update()
 	Getter();
 
 	// プレイヤーのアクション
-	PlayerAction();
+	if (deathFlag == 0) { PlayerAction(); }
+	if (deathFlag == 1) { PlayerPosition.y += 0.05f; }
 
 	// エネミーのアクション
 	EnemyAction();
@@ -443,7 +444,7 @@ void StageOnePlayer::Collision()
 		// 1個目の4段目の地面から落ちてしまった場合（右）
 		53 < PlayerPosition.x && PlayerPosition.x < 53.5f && 10.5f < PlayerPosition.y && PlayerPosition.y < 12 ||
 		// 2個目の4段目の地面から落ちてしまった場合（左）
-		75.5f < PlayerPosition.x && PlayerPosition.x < 76 && 10.5f < PlayerPosition.y && PlayerPosition.y < 12 || 
+		75.5f < PlayerPosition.x && PlayerPosition.x < 76 && 10.5f < PlayerPosition.y && PlayerPosition.y < 12 ||
 		// 2個目の4段目の地面から落ちてしまった場合（右）
 		80 < PlayerPosition.x && PlayerPosition.x < 80.5f && 10.5f < PlayerPosition.y && PlayerPosition.y < 12) {
 		jumpCount = 3;
@@ -483,10 +484,10 @@ void StageOnePlayer::Collision()
 	}
 
 	// エネミーの当たり判定
-	/*if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
+	if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
 		BrownEnemyPosition[0].x + 2 && PlayerPosition.y < 3 && brownEnemyFlag[0] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
-			damageCount = 60;
+			damageCount = 120;
 		}
 		if (0 < attackFlag) {
 			brownEnemyFlag[0] = 1;
@@ -495,7 +496,7 @@ void StageOnePlayer::Collision()
 	if (BrownEnemyPosition[1].x - 2 < PlayerPosition.x && PlayerPosition.x <
 		BrownEnemyPosition[1].x + 2 && PlayerPosition.y < 15 && brownEnemyFlag[1] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
-			damageCount = 60;
+			damageCount = 120;
 		}
 		if (0 < attackFlag) {
 			brownEnemyFlag[1] = 1;
@@ -504,12 +505,12 @@ void StageOnePlayer::Collision()
 	if (GrayEnemyPosition.x - 2 < PlayerPosition.x && PlayerPosition.x <
 		GrayEnemyPosition.x + 2 && PlayerPosition.y < 3 && grayEnemyFlag == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
-			damageCount = 60;
+			damageCount = 120;
 		}
 		if (attackFlag == 2) {
 			grayEnemyFlag = 1;
 		}
-	}*/
+	}
 
 	// ダメージ関係
 	if (0 < damageCount) {
