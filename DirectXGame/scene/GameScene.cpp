@@ -77,7 +77,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	gameover = Sprite::Create(13, { 0.0f,0.0f }, { 2,2,2,1 });
 
 	// サウンド読み込み
-	audio->SoundLoadWave("bgm.wav");
+	audio->SoundLoadWave("彩づく草原.wav");
+	audio->SoundLoadWave("風のダンジョン.wav");
+	audio->SoundLoadWave("風が吹く1.wav");
 
 	// チュートリアルプレイヤー生成
 	tutorialPlayer = new TutorialPlayer();
@@ -120,9 +122,6 @@ void GameScene::Update()
 	if (input->TriggerKey(DIK_3)) { scene = 4; }
 #endif
 	if (scene == 1) {
-		// 再生
-		audio->SoundPlayWave("bgm.wav", true);
-
 		tutorialPlayer->Update();
 		tutorialMap->Update();
 	}
@@ -141,9 +140,8 @@ void GameScene::Update()
 			bossHP = 0;
 		}
 	}
-	if (scene == 5) {
-		audio->SoundStop("bgm.wav");
-	}
+	// サウンド
+	Sound();
 	// 当たり判定
 	Collision();
 	// シーンチェンジ
@@ -222,6 +220,44 @@ void GameScene::Draw()
 #pragma endregion
 }
 
+// サウンド
+void GameScene::Sound()
+{
+	// 再生
+	if (scene == 0) { audio->SoundPlayWave("彩づく草原.wav", true); }
+	if (scene == 1 || scene == 2) { audio->SoundPlayWave("風のダンジョン.wav", true); }
+	if (scene == 3) { audio->SoundPlayWave("風が吹く1.wav", true); }
+
+	// 停止
+	if (scene == 0) {
+		if (input->TriggerKey(DIK_SPACE) || input->TriggerButton(0)) {
+			audio->SoundStop("彩づく草原.wav");
+		}
+	}
+	if (scene == 2) {
+		XMFLOAT3 PlayerPosition = stageOnePlayer->GetPlayerPosition();
+		Input::StickMove stickMove = input->GetStickMove();
+		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 &&
+			PlayerPosition.y < 4 || stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 &&
+			PlayerPosition.y < 4 && input->GetDevJoyStick()) {
+			audio->SoundStop("風のダンジョン.wav");
+		}
+		// 死んだら
+		if (HP == 0) {
+			audio->SoundStop("風のダンジョン.wav");
+		}
+	}
+	if (scene == 3) {
+		XMFLOAT3 PlayerPosition = stageTwoPlayer->GetPlayerPosition();
+		Input::StickMove stickMove = input->GetStickMove();
+		if (input->TriggerKey(DIK_UP) && 37 < PlayerPosition.x && PlayerPosition.x < 41 &&
+			PlayerPosition.y < 4 || stickMove.lY == 0 && 37 < PlayerPosition.x && PlayerPosition.x < 41 &&
+			PlayerPosition.y < 4 && input->GetDevJoyStick()) {
+			audio->SoundStop("風が吹く1.wav");
+		}
+	}
+}
+
 // 当たり判定
 void GameScene::Collision()
 {
@@ -292,6 +328,7 @@ void GameScene::SceneChange()
 			scene = 1;
 		}
 	}
+
 	if (scene == 1) {
 		XMFLOAT3 PlayerPosition = tutorialPlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
@@ -301,6 +338,7 @@ void GameScene::SceneChange()
 			scene = 2;
 		}
 	}
+
 	if (scene == 2) {
 		XMFLOAT3 PlayerPosition = stageOnePlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
@@ -309,7 +347,15 @@ void GameScene::SceneChange()
 			PlayerPosition.y < 4 && input->GetDevJoyStick()) {
 			scene = 3;
 		}
+		// 死んだら
+		if (HP == 0) {
+			stageOnePlayer->SetDeathFlag();
+		}
+		if (stageOnePlayer->GetDeathFlag() == 1 && damageCount == 0) {
+			scene = 6;
+		}
 	}
+
 	if (scene == 3) {
 		XMFLOAT3 PlayerPosition = stageTwoPlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
@@ -319,18 +365,11 @@ void GameScene::SceneChange()
 			scene = 4;
 		}
 	}
+
 	if (scene == 4) {
 		if (bossHP == 0) {
 			scene = 5;
 		}
-	}
-	// 死んだら
-	if (HP == 0) {
-		if (scene == 2) { stageOnePlayer->SetDeathFlag(); }
-		audio->SoundStop("bgm.wav");
-	}
-	if (stageOnePlayer->GetDeathFlag() == 1 && damageCount == 0) {
-		scene = 6;
 	}
 }
 

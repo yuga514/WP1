@@ -50,6 +50,9 @@ public: // メンバ関数
 	// 描画
 	void Draw();
 
+	// サウンド
+	void Sound();
+
 	// 当たり判定
 	void Collision();
 
