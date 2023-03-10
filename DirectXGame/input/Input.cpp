@@ -32,7 +32,7 @@ bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
 	// 排他制御レベルのセット
 	result = devMouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 
-	if (devJoystick != NULL) {
+	if (devJoystick) {
 		// 入力データ形式のセット
 		result = devJoystick->SetDataFormat(&c_dfDIJoystick2); // 標準形式
 
@@ -67,7 +67,7 @@ void Input::Update()
 		result = devMouse->GetDeviceState(sizeof(mouseState), &mouseState);
 	}
 
-	if (devJoystick != NULL) { // ジョイスティック
+	if (devJoystick) { // ジョイスティック
 		result = devJoystick->Acquire(); // ジョイスティック動作開始
 
 		// 前回の入力を保存

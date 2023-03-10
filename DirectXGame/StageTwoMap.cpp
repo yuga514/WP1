@@ -10,6 +10,7 @@ StageTwoMap::~StageTwoMap()
 {
 	safe_delete(modelBrock);
 	safe_delete(modelDoor);
+	safe_delete(modelHeart);
 
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
@@ -21,6 +22,10 @@ StageTwoMap::~StageTwoMap()
 			{
 				safe_delete(objDoor[y][x]);
 			}
+			if (map[y][x] == HEART)
+			{
+				safe_delete(objHeart[y][x]);
+			}
 		}
 	}
 }
@@ -31,6 +36,7 @@ void StageTwoMap::Initialize()
 	// モデル読み込み
 	modelBrock = Model::CreateFromOBJ("brock");
 	modelDoor = Model::CreateFromOBJ("door");
+	modelHeart = Model::CreateFromOBJ("heart");
 
 	// 3Dオブジェクト生成
 	for (int y = 0; y < mapY; y++) {
@@ -42,6 +48,10 @@ void StageTwoMap::Initialize()
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x] = Object3d::Create(modelDoor);
+			}
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x] = Object3d::Create(modelHeart);
 			}
 		}
 	}
@@ -69,6 +79,20 @@ void StageTwoMap::Update()
 			{
 				objDoor[y][x]->GetPosition();
 			}
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x]->GetPosition();
+			}
+		}
+	}
+
+	// ゲットローテーション
+	for (int y = 0; y < mapY; y++) {
+		for (int x = 0; x < mapX; x++) {
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x]->GetRotation();
+			}
 		}
 	}
 
@@ -83,8 +107,36 @@ void StageTwoMap::Update()
 			{
 				objDoor[y][x]->SetPosition(MapPosition[y][x]);
 			}
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x]->SetPosition(MapPosition[y][x]);
+			}
 		}
 	}
+
+	// セットローテーション
+	for (int y = 0; y < mapY; y++) {
+		for (int x = 0; x < mapX; x++) {
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x]->SetRotation(HeartRotation);
+			}
+		}
+	}
+
+	// セットスケール
+	for (int y = 0; y < mapY; y++) {
+		for (int x = 0; x < mapX; x++) {
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x]->SetScale({ 0.5f,0.5f,0.5f });
+			}
+		}
+	}
+
+	// ハートの回転
+	HeartRotation.y += 2.0f;
+	if (HeartRotation.y == 360) { HeartRotation.y = 0.0f; }
 
 	// アップデート
 	for (int y = 0; y < mapY; y++) {
@@ -96,6 +148,10 @@ void StageTwoMap::Update()
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x]->Update();
+			}
+			if (map[y][x] == HEART)
+			{
+				objHeart[y][x]->Update();
 			}
 		}
 	}
@@ -113,6 +169,10 @@ void StageTwoMap::Draw()
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x]->Draw();
+			}
+			if (map[y][x] == HEART && heartFlag == 0)
+			{
+				objHeart[y][x]->Draw();
 			}
 		}
 	}

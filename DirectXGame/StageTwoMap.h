@@ -23,6 +23,12 @@ public: // メンバ関数
 	// 描画
 	void Draw();
 
+	// ハートフラグの取得
+	bool GetHeartFlag() { return heartFlag; }
+
+	// ハートフラグの設定
+	void SetHeartFlag() { heartFlag = 1; }
+
 private: // メンバ変数
 	const int mapX = 17;
 	const int mapY = 9;
@@ -37,7 +43,7 @@ private: // メンバ変数
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0},
+		{0,0,0,0,3,0,0,0,0,0,0,0,0,0,2,0,0},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
 
@@ -45,12 +51,19 @@ private: // メンバ変数
 	{
 		NONE,
 		BROCK,
-		DOOR
+		DOOR,
+		HEART
 	};
+
+	bool heartFlag = 0;
+
+	XMFLOAT3 HeartRotation = { 0,0,0 };
 
 	Model* modelBrock = nullptr;
 	Model* modelDoor = nullptr;
+	Model* modelHeart = nullptr;
 
 	Object3d* objBrock[9][17] = {};
 	Object3d* objDoor[9][17] = {};
+	Object3d* objHeart[9][17] = {};
 };

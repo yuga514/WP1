@@ -114,6 +114,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 void GameScene::Update()
 {
+#ifdef _DEBUG
+	if (input->TriggerKey(DIK_1)) { scene = 2; }
+	if (input->TriggerKey(DIK_2)) { scene = 3; }
+	if (input->TriggerKey(DIK_3)) { scene = 4; }
+#endif
 	if (scene == 1) {
 		// 再生
 		audio->SoundPlayWave("bgm.wav", true);
@@ -233,17 +238,17 @@ void GameScene::Collision()
 
 		// エネミーの当たり判定
 		if (EnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x < EnemyPosition[0].x + 2 &&
-			PlayerPosition.y < 3 && stageOnePlayer->GetEnemyFlag1() == 0 &&
+			PlayerPosition.y < 2 && stageOnePlayer->GetEnemyFlag1() == 0 &&
 			stageOnePlayer->GetAttackFlag() == 0 && damageCount == 0) {
 			damageCount = 120;
 		}
 		if (EnemyPosition[1].x - 2 < PlayerPosition.x && PlayerPosition.x < EnemyPosition[1].x + 2 &&
-			PlayerPosition.y < 15 && stageOnePlayer->GetEnemyFlag2() == 0 &&
+			PlayerPosition.y < 14 && stageOnePlayer->GetEnemyFlag2() == 0 &&
 			stageOnePlayer->GetAttackFlag() == 0 && damageCount == 0) {
 			damageCount = 120;
 		}
 		if (EnemyPosition[2].x - 2 < PlayerPosition.x && PlayerPosition.x < EnemyPosition[2].x + 2 &&
-			PlayerPosition.y < 3 && stageOnePlayer->GetEnemyFlag3() == 0 &&
+			PlayerPosition.y < 2 && stageOnePlayer->GetEnemyFlag3() == 0 &&
 			stageOnePlayer->GetAttackFlag() == 0 && damageCount == 0) {
 			damageCount = 120;
 		}
@@ -255,6 +260,16 @@ void GameScene::Collision()
 		// ダメージカウントを減らす
 		if (0 < damageCount) {
 			damageCount--;
+		}
+	}
+
+	if (scene == 3) {
+		XMFLOAT3 PlayerPosition = stageTwoPlayer->GetPlayerPosition();
+		// HPを回復する
+		if (7 < PlayerPosition.x && PlayerPosition.x < 11 &&
+			PlayerPosition.y < 2 && stageTwoMap->GetHeartFlag() == 0) {
+			HP = 5;
+			stageTwoMap->SetHeartFlag();
 		}
 	}
 
@@ -280,24 +295,27 @@ void GameScene::SceneChange()
 	if (scene == 1) {
 		XMFLOAT3 PlayerPosition = tutorialPlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
-		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4 ||
-			stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
+		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 &&
+			PlayerPosition.y < 4 || stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 &&
+			PlayerPosition.y < 4 && input->GetDevJoyStick()) {
 			scene = 2;
 		}
 	}
 	if (scene == 2) {
 		XMFLOAT3 PlayerPosition = stageOnePlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
-		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4 ||
-			stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 && PlayerPosition.y < 4) {
+		if (input->TriggerKey(DIK_UP) && 88 < PlayerPosition.x && PlayerPosition.x < 92 &&
+			PlayerPosition.y < 4 || stickMove.lY == 0 && 88 < PlayerPosition.x && PlayerPosition.x < 92 &&
+			PlayerPosition.y < 4 && input->GetDevJoyStick()) {
 			scene = 3;
 		}
 	}
 	if (scene == 3) {
 		XMFLOAT3 PlayerPosition = stageTwoPlayer->GetPlayerPosition();
 		Input::StickMove stickMove = input->GetStickMove();
-		if (input->TriggerKey(DIK_UP) && 37 < PlayerPosition.x && PlayerPosition.x < 41 && PlayerPosition.y < 4 ||
-			stickMove.lY == 0 && 37 < PlayerPosition.x && PlayerPosition.x < 41 && PlayerPosition.y < 4) {
+		if (input->TriggerKey(DIK_UP) && 37 < PlayerPosition.x && PlayerPosition.x < 41 &&
+			PlayerPosition.y < 4 || stickMove.lY == 0 && 37 < PlayerPosition.x && PlayerPosition.x < 41 &&
+			PlayerPosition.y < 4 && input->GetDevJoyStick()) {
 			scene = 4;
 		}
 	}

@@ -485,7 +485,7 @@ void StageOnePlayer::Collision()
 
 	// エネミーの当たり判定
 	if (BrownEnemyPosition[0].x - 2 < PlayerPosition.x && PlayerPosition.x <
-		BrownEnemyPosition[0].x + 2 && PlayerPosition.y < 3 && brownEnemyFlag[0] == 0) {
+		BrownEnemyPosition[0].x + 2 && PlayerPosition.y < 2 && brownEnemyFlag[0] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
 			damageCount = 120;
 		}
@@ -494,7 +494,7 @@ void StageOnePlayer::Collision()
 		}
 	}
 	if (BrownEnemyPosition[1].x - 2 < PlayerPosition.x && PlayerPosition.x <
-		BrownEnemyPosition[1].x + 2 && PlayerPosition.y < 15 && brownEnemyFlag[1] == 0) {
+		BrownEnemyPosition[1].x + 2 && PlayerPosition.y < 14 && brownEnemyFlag[1] == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
 			damageCount = 120;
 		}
@@ -503,7 +503,7 @@ void StageOnePlayer::Collision()
 		}
 	}
 	if (GrayEnemyPosition.x - 2 < PlayerPosition.x && PlayerPosition.x <
-		GrayEnemyPosition.x + 2 && PlayerPosition.y < 3 && grayEnemyFlag == 0) {
+		GrayEnemyPosition.x + 2 && PlayerPosition.y < 2 && grayEnemyFlag == 0) {
 		if (attackFlag == 0 && damageCount == 0) {
 			damageCount = 120;
 		}
