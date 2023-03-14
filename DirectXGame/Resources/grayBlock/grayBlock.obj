@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib brownBrock.mtl
+mtllib grayBlock.mtl
 usemtl palette
 
 # normals
@@ -16,7 +16,7 @@ vn 0 -1 0
 vn 0 1 0
 
 # texcoords
-vt 0.369141 0.5
+vt 0.970703 0.5
 
 # verts
 v -1.6 0 1.6

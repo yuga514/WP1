@@ -12,16 +12,11 @@ TutorialPlayer::~TutorialPlayer()
 	safe_delete(modelPlayerLeft);
 	safe_delete(modelAttack1);
 	safe_delete(modelAttack2);
-	safe_delete(modelBrownBrock);
-	safe_delete(modelGrayBrock);
 	safe_delete(objPlayerRight);
 	safe_delete(objPlayerLeft);
 	safe_delete(objAttack1);
 	safe_delete(objAttack2);
-	safe_delete(objBrownBrock);
-	for (int i = 0; i < 4; i++) {
-		safe_delete(objGrayBrock[i]);
-	}
+	safe_delete(tutorialMap);
 }
 
 // 初期化
@@ -43,18 +38,16 @@ void TutorialPlayer::Initialize(Input* input)
 	modelPlayerLeft = Model::CreateFromOBJ("playerLeft");
 	modelAttack1 = Model::CreateFromOBJ("attack1");
 	modelAttack2 = Model::CreateFromOBJ("attack2");
-	modelBrownBrock = Model::CreateFromOBJ("brownBrock");
-	modelGrayBrock = Model::CreateFromOBJ("grayBrock");
 
 	// 3Dオブジェクト生成
 	objPlayerRight = Object3d::Create(modelPlayerRight);
 	objPlayerLeft = Object3d::Create(modelPlayerLeft);
 	objAttack1 = Object3d::Create(modelAttack1);
 	objAttack2 = Object3d::Create(modelAttack2);
-	objBrownBrock = Object3d::Create(modelBrownBrock);
-	for (int i = 0; i < 4; i++) {
-		objGrayBrock[i] = Object3d::Create(modelGrayBrock);
-	}
+
+	// チュートリアルマップ生成
+	tutorialMap = new TutorialMap();
+	tutorialMap->Initialize();
 }
 
 // 更新
@@ -74,15 +67,11 @@ void TutorialPlayer::Update()
 
 	// アップデート
 	camera->Update();
-
 	objPlayerRight->Update();
 	objPlayerLeft->Update();
 	objAttack1->Update();
 	objAttack2->Update();
-	objBrownBrock->Update();
-	for (int i = 0; i < 4; i++) {
-		objGrayBrock[i]->Update();
-	}
+	tutorialMap->Update();
 }
 
 // 描画
@@ -100,14 +89,7 @@ void TutorialPlayer::Draw()
 	if (attackFlag == 2) {
 		objAttack2->Draw();
 	}
-	if (brownBrockFlag == 0) {
-		objBrownBrock->Draw();
-	}
-	for (int i = 0; i < 4; i++) {
-		if (grayBrockFlag[i] == 0) {
-			objGrayBrock[i]->Draw();
-		}
-	}
+	tutorialMap->Draw();
 }
 
 // ゲッター
@@ -121,10 +103,6 @@ void TutorialPlayer::Getter()
 	objPlayerLeft->GetPosition();
 	objAttack1->GetPosition();
 	objAttack2->GetPosition();
-	objBrownBrock->GetPosition();
-	for (int i = 0; i < 4; i++) {
-		objGrayBrock[i]->GetPosition();
-	}
 
 	// ゲットローテーション
 	objPlayerRight->GetRotation();
@@ -146,10 +124,6 @@ void TutorialPlayer::Setter()
 	objPlayerLeft->SetPosition(PlayerPosition);
 	objAttack1->SetPosition(PlayerPosition);
 	objAttack2->SetPosition(PlayerPosition);
-	objBrownBrock->SetPosition(BrownBrockPosition);
-	for (int i = 0; i < 4; i++) {
-		objGrayBrock[i]->SetPosition(GrayBrockPosition[i]);
-	}
 
 	// セットローテーション
 	objPlayerRight->SetRotation(PlayerRotation);
@@ -228,7 +202,7 @@ void TutorialPlayer::PlayerAction()
 		Land();
 	}
 	// 4段目の地面についていたら止まる（灰色ブロックの上）
-	if (68 < PlayerPosition.x && PlayerPosition.x < 74 && PlayerPosition.y < 12 && grayBrockFlag[0] == 0) {
+	if (68 < PlayerPosition.x && PlayerPosition.x < 74 && PlayerPosition.y < 12 && tutorialMap->GetBlockFlag2() == 0) {
 		PlayerPosition.y = 12.0f;
 		CrushBrockLand();
 	}
@@ -302,7 +276,7 @@ void TutorialPlayer::Collision()
 		// 3個目のブロックの当たり判定（右）
 		48 < PlayerPosition.x && PlayerPosition.x < 49 && 12 < PlayerPosition.y ||
 		// 茶色ブロックの当たり判定（右）
-		48 < PlayerPosition.x && PlayerPosition.x < 49 && PlayerPosition.y == 12 && brownBrockFlag == 0 ||
+		48 < PlayerPosition.x && PlayerPosition.x < 49 && PlayerPosition.y == 12 && tutorialMap->GetBlockFlag1() == 0 ||
 		// 4個目のブロックの当たり判定（右）
 		69 < PlayerPosition.x && PlayerPosition.x < 70 && 0 < PlayerPosition.y) {
 		CameraPosition.x -= speed;
@@ -347,14 +321,14 @@ void TutorialPlayer::Collision()
 
 	// 茶色ブロックの当たり判定
 	if (47.8f < PlayerPosition.x && PlayerPosition.y < 13 && attackFlag == 1) {
-		brownBrockFlag = 1;
+		tutorialMap->SetBlockFlag1();
 	}
 	// 灰色ブロックの当たり判定
-	for (int i = 0; i < 4; i++) {
-		if (68 < PlayerPosition.x && PlayerPosition.x < 74 && PlayerPosition.y < GrayBrockPosition[i].y + 4.1f &&
-			attackFlag == 2) {
-			grayBrockFlag[i] = 1;
-		}
+	if (68 < PlayerPosition.x && PlayerPosition.x < 74 && attackFlag == 2) {
+		if (PlayerPosition.y < 12) { tutorialMap->SetBlockFlag2(); }
+		if (PlayerPosition.y < 9) { tutorialMap->SetBlockFlag3(); }
+		if (PlayerPosition.y < 6) { tutorialMap->SetBlockFlag4(); }
+		if (PlayerPosition.y < 3) { tutorialMap->SetBlockFlag5(); }
 	}
 }
 

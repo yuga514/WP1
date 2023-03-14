@@ -51,8 +51,8 @@ void StageOnePlayer::Initialize(Input* input)
 	modelPlayerLeft = Model::CreateFromOBJ("playerLeft");
 	modelAttack1 = Model::CreateFromOBJ("attack1");
 	modelAttack2 = Model::CreateFromOBJ("attack2");
-	modelBrownBrock = Model::CreateFromOBJ("brownBrock");
-	modelGrayBrock = Model::CreateFromOBJ("grayBrock");
+	modelBrownBrock = Model::CreateFromOBJ("brownBlock");
+	modelGrayBrock = Model::CreateFromOBJ("grayBlock");
 	modelBrownEnemy = Model::CreateFromOBJ("brownEnemy");
 	modelGrayEnemy = Model::CreateFromOBJ("grayEnemy");
 

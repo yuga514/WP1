@@ -4,7 +4,7 @@
 o 
 
 # material
-mtllib brock.mtl
+mtllib block.mtl
 usemtl palette
 
 # normals

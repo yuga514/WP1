@@ -24,7 +24,6 @@ GameScene::~GameScene()
 	safe_delete(gameclear);
 	safe_delete(gameover);
 	safe_delete(tutorialPlayer);
-	safe_delete(tutorialMap);
 	safe_delete(stageOnePlayer);
 	safe_delete(stageOneMap);
 	safe_delete(stageTwoPlayer);
@@ -84,9 +83,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// チュートリアルプレイヤー生成
 	tutorialPlayer = new TutorialPlayer();
 	tutorialPlayer->Initialize(input);
-	// チュートリアルマップ生成
-	tutorialMap = new TutorialMap();
-	tutorialMap->Initialize();
 	// ステージ1プレイヤー生成
 	stageOnePlayer = new StageOnePlayer();
 	stageOnePlayer->Initialize(input);
@@ -123,7 +119,6 @@ void GameScene::Update()
 #endif
 	if (scene == 1) {
 		tutorialPlayer->Update();
-		tutorialMap->Update();
 	}
 	if (scene == 2) {
 		stageOnePlayer->Update();
@@ -180,7 +175,6 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 
 	if (scene == 1) {
-		tutorialMap->Draw();
 		tutorialPlayer->Draw();
 	}
 	if (scene == 2) {

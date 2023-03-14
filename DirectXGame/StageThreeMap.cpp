@@ -24,7 +24,7 @@ StageThreeMap::~StageThreeMap()
 void StageThreeMap::Initialize()
 {
 	// モデル読み込み
-	modelBrock = Model::CreateFromOBJ("brock");
+	modelBrock = Model::CreateFromOBJ("block");
 
 	// 3Dオブジェクト生成
 	for (int y = 0; y < mapY; y++) {

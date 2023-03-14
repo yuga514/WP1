@@ -62,6 +62,8 @@ public: // メンバ関数
 	// カメラのセット
 	void SetCameraTarget();
 
+	TutorialMap* tutorialMap = nullptr;
+
 private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
@@ -92,7 +94,6 @@ private: // メンバ変数
 	Sprite* gameover = nullptr;
 
 	TutorialPlayer* tutorialPlayer = nullptr;
-	TutorialMap* tutorialMap = nullptr;
 	StageOnePlayer* stageOnePlayer = nullptr;
 	StageOneMap* stageOneMap = nullptr;
 	StageTwoPlayer* stageTwoPlayer = nullptr;

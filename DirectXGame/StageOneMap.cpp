@@ -29,7 +29,7 @@ StageOneMap::~StageOneMap()
 void StageOneMap::Initialize()
 {
 	// モデル読み込み
-	modelBrock = Model::CreateFromOBJ("brock");
+	modelBrock = Model::CreateFromOBJ("block");
 	modelDoor = Model::CreateFromOBJ("door");
 
 	// 3Dオブジェクト生成

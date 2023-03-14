@@ -23,6 +23,20 @@ public: // メンバ関数
 	// 描画
 	void Draw();
 
+	// ブロックフラグの取得
+	bool GetBlockFlag1() { return blockFlag[0]; }
+	bool GetBlockFlag2() { return blockFlag[1]; }
+	bool GetBlockFlag3() { return blockFlag[2]; }
+	bool GetBlockFlag4() { return blockFlag[3]; }
+	bool GetBlockFlag5() { return blockFlag[4]; }
+
+	// ブロックフラグの設定
+	void SetBlockFlag1() { blockFlag[0] = 1; }
+	void SetBlockFlag2() { blockFlag[1] = 1; }
+	void SetBlockFlag3() { blockFlag[2] = 1; }
+	void SetBlockFlag4() { blockFlag[3] = 1; }
+	void SetBlockFlag5() { blockFlag[4] = 1; }
+
 private: // メンバ変数
 	const int mapX = 34;
 	const int mapY = 9;
@@ -33,42 +47,35 @@ private: // メンバ変数
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,7,0,0,0,1,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0},
-		{0,0,3,0,0,0,4,0,0,0,5,0,1,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,8,0,0,2,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,3,0,0,0,5,0,0,1,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,4,1,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,4,1,0,0,0,0,0,0,0,0},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,4,1,0,0,0,0,0,0,0,0},
+		{0,5,0,5,0,0,0,0,5,0,5,0,1,0,0,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,2,0,0},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
 
 	enum mapinfo
 	{
 		NONE,
-		BROCK,
+		BLOCK,
 		DOOR,
-		SIGN1,
-		SIGN2,
-		SIGN3,
-		SIGN4,
-		SIGN5,
-		SIGN6
+		BROWN,
+		GRAY,
+		SIGN
 	};
 
-	Model* modelBrock = nullptr;
-	Model* modelDoor = nullptr;
-	Model* modelSign1 = nullptr;
-	Model* modelSign2 = nullptr;
-	Model* modelSign3 = nullptr;
-	Model* modelSign4 = nullptr;
-	Model* modelSign5 = nullptr;
-	Model* modelSign6 = nullptr;
+	bool blockFlag[5] = {};
 
-	Object3d* objBrock[9][34] = {};
+	Model* modelBlock = nullptr;
+	Model* modelDoor = nullptr;
+	Model* modelBrownBlock = nullptr;
+	Model* modelGrayBlock = nullptr;
+	Model* modelSign = nullptr;
+
+	Object3d* objBlock[9][34] = {};
 	Object3d* objDoor[9][34] = {};
-	Object3d* objSign1[9][34] = {};
-	Object3d* objSign2[9][34] = {};
-	Object3d* objSign3[9][34] = {};
-	Object3d* objSign4[9][34] = {};
-	Object3d* objSign5[9][34] = {};
-	Object3d* objSign6[9][34] = {};
+	Object3d* objBrownBlock[9][34] = {};
+	Object3d* objGrayBlock[9][34] = {};
+	Object3d* objSign[9][34] = {};
 };

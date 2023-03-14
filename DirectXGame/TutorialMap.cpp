@@ -8,48 +8,33 @@ TutorialMap::TutorialMap()
 // デストラクタ
 TutorialMap::~TutorialMap()
 {
-	safe_delete(modelBrock);
+	safe_delete(modelBlock);
 	safe_delete(modelDoor);
-	safe_delete(modelSign1);
-	safe_delete(modelSign2);
-	safe_delete(modelSign3);
-	safe_delete(modelSign4);
-	safe_delete(modelSign5);
-	safe_delete(modelSign6);
+	safe_delete(modelBrownBlock);
+	safe_delete(modelGrayBlock);
+	safe_delete(modelSign);
 
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
-			if (map[y][x] == BROCK)
+			if (map[y][x] == BLOCK)
 			{
-				safe_delete(objBrock[y][x]);
+				safe_delete(objBlock[y][x]);
 			}
 			if (map[y][x] == DOOR)
 			{
 				safe_delete(objDoor[y][x]);
 			}
-			if (map[y][x] == SIGN1)
+			if (map[y][x] == BROWN)
 			{
-				safe_delete(objSign1[y][x]);
+				safe_delete(objBrownBlock[y][x]);
 			}
-			if (map[y][x] == SIGN2)
+			if (map[y][x] == GRAY)
 			{
-				safe_delete(objSign2[y][x]);
+				safe_delete(objGrayBlock[y][x]);
 			}
-			if (map[y][x] == SIGN3)
+			if (map[y][x] == SIGN)
 			{
-				safe_delete(objSign3[y][x]);
-			}
-			if (map[y][x] == SIGN4)
-			{
-				safe_delete(objSign4[y][x]);
-			}
-			if (map[y][x] == SIGN5)
-			{
-				safe_delete(objSign5[y][x]);
-			}
-			if (map[y][x] == SIGN6)
-			{
-				safe_delete(objSign6[y][x]);
+				safe_delete(objSign[y][x]);
 			}
 		}
 	}
@@ -59,49 +44,34 @@ TutorialMap::~TutorialMap()
 void TutorialMap::Initialize()
 {
 	// モデル読み込み
-	modelBrock = Model::CreateFromOBJ("brock");
+	modelBlock = Model::CreateFromOBJ("block");
 	modelDoor = Model::CreateFromOBJ("door");
-	modelSign1 = Model::CreateFromOBJ("sign1");
-	modelSign2 = Model::CreateFromOBJ("sign2");
-	modelSign3 = Model::CreateFromOBJ("sign3");
-	modelSign4 = Model::CreateFromOBJ("sign4");
-	modelSign5 = Model::CreateFromOBJ("sign5");
-	modelSign6 = Model::CreateFromOBJ("sign6");
+	modelBrownBlock = Model::CreateFromOBJ("brownBlock");
+	modelGrayBlock = Model::CreateFromOBJ("grayBlock");
+	modelSign = Model::CreateFromOBJ("sign");
 
 	// 3Dオブジェクト生成
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
-			if (map[y][x] == BROCK)
+			if (map[y][x] == BLOCK)
 			{
-				objBrock[y][x] = Object3d::Create(modelBrock);
+				objBlock[y][x] = Object3d::Create(modelBlock);
 			}
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x] = Object3d::Create(modelDoor);
 			}
-			if (map[y][x] == SIGN1)
+			if (map[y][x] == BROWN)
 			{
-				objSign1[y][x] = Object3d::Create(modelSign1);
+				objBrownBlock[y][x] = Object3d::Create(modelBrownBlock);
 			}
-			if (map[y][x] == SIGN2)
+			if (map[y][x] == GRAY)
 			{
-				objSign2[y][x] = Object3d::Create(modelSign2);
+				objGrayBlock[y][x] = Object3d::Create(modelGrayBlock);
 			}
-			if (map[y][x] == SIGN3)
+			if (map[y][x] == SIGN)
 			{
-				objSign3[y][x] = Object3d::Create(modelSign3);
-			}
-			if (map[y][x] == SIGN4)
-			{
-				objSign4[y][x] = Object3d::Create(modelSign4);
-			}
-			if (map[y][x] == SIGN5)
-			{
-				objSign5[y][x] = Object3d::Create(modelSign5);
-			}
-			if (map[y][x] == SIGN6)
-			{
-				objSign6[y][x] = Object3d::Create(modelSign6);
+				objSign[y][x] = Object3d::Create(modelSign);
 			}
 		}
 	}
@@ -121,37 +91,25 @@ void TutorialMap::Update()
 	// ゲットポジション
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
-			if (map[y][x] == BROCK)
+			if (map[y][x] == BLOCK)
 			{
-				objBrock[y][x]->GetPosition();
+				objBlock[y][x]->GetPosition();
 			}
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x]->GetPosition();
 			}
-			if (map[y][x] == SIGN1)
+			if (map[y][x] == BROWN)
 			{
-				objSign1[y][x]->GetPosition();
+				objBrownBlock[y][x]->GetPosition();
 			}
-			if (map[y][x] == SIGN2)
+			if (map[y][x] == GRAY)
 			{
-				objSign2[y][x]->GetPosition();
+				objGrayBlock[y][x]->GetPosition();
 			}
-			if (map[y][x] == SIGN3)
+			if (map[y][x] == SIGN)
 			{
-				objSign3[y][x]->GetPosition();
-			}
-			if (map[y][x] == SIGN4)
-			{
-				objSign4[y][x]->GetPosition();
-			}
-			if (map[y][x] == SIGN5)
-			{
-				objSign5[y][x]->GetPosition();
-			}
-			if (map[y][x] == SIGN6)
-			{
-				objSign6[y][x]->GetPosition();
+				objSign[y][x]->GetPosition();
 			}
 		}
 	}
@@ -159,37 +117,25 @@ void TutorialMap::Update()
 	// セットポジション
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
-			if (map[y][x] == BROCK)
+			if (map[y][x] == BLOCK)
 			{
-				objBrock[y][x]->SetPosition(MapPosition[y][x]);
+				objBlock[y][x]->SetPosition(MapPosition[y][x]);
 			}
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x]->SetPosition(MapPosition[y][x]);
 			}
-			if (map[y][x] == SIGN1)
+			if (map[y][x] == BROWN)
 			{
-				objSign1[y][x]->SetPosition(MapPosition[y][x]);
+				objBrownBlock[y][x]->SetPosition(MapPosition[y][x]);
 			}
-			if (map[y][x] == SIGN2)
+			if (map[y][x] == GRAY)
 			{
-				objSign2[y][x]->SetPosition(MapPosition[y][x]);
+				objGrayBlock[y][x]->SetPosition(MapPosition[y][x]);
 			}
-			if (map[y][x] == SIGN3)
+			if (map[y][x] == SIGN)
 			{
-				objSign3[y][x]->SetPosition(MapPosition[y][x]);
-			}
-			if (map[y][x] == SIGN4)
-			{
-				objSign4[y][x]->SetPosition(MapPosition[y][x]);
-			}
-			if (map[y][x] == SIGN5)
-			{
-				objSign5[y][x]->SetPosition(MapPosition[y][x]);
-			}
-			if (map[y][x] == SIGN6)
-			{
-				objSign6[y][x]->SetPosition(MapPosition[y][x]);
+				objSign[y][x]->SetPosition(MapPosition[y][x]);
 			}
 		}
 	}
@@ -197,37 +143,25 @@ void TutorialMap::Update()
 	// アップデート
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
-			if (map[y][x] == BROCK)
+			if (map[y][x] == BLOCK)
 			{
-				objBrock[y][x]->Update();
+				objBlock[y][x]->Update();
 			}
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x]->Update();
 			}
-			if (map[y][x] == SIGN1)
+			if (map[y][x] == BROWN)
 			{
-				objSign1[y][x]->Update();
+				objBrownBlock[y][x]->Update();
 			}
-			if (map[y][x] == SIGN2)
+			if (map[y][x] == GRAY)
 			{
-				objSign2[y][x]->Update();
+				objGrayBlock[y][x]->Update();
 			}
-			if (map[y][x] == SIGN3)
+			if (map[y][x] == SIGN)
 			{
-				objSign3[y][x]->Update();
-			}
-			if (map[y][x] == SIGN4)
-			{
-				objSign4[y][x]->Update();
-			}
-			if (map[y][x] == SIGN5)
-			{
-				objSign5[y][x]->Update();
-			}
-			if (map[y][x] == SIGN6)
-			{
-				objSign6[y][x]->Update();
+				objSign[y][x]->Update();
 			}
 		}
 	}
@@ -238,37 +172,28 @@ void TutorialMap::Draw()
 {
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
-			if (map[y][x] == BROCK)
+			if (map[y][x] == BLOCK)
 			{
-				objBrock[y][x]->Draw();
+				objBlock[y][x]->Draw();
 			}
 			if (map[y][x] == DOOR)
 			{
 				objDoor[y][x]->Draw();
 			}
-			if (map[y][x] == SIGN1)
+			if (map[y][x] == BROWN && blockFlag[0] == 0)
 			{
-				objSign1[y][x]->Draw();
+				objBrownBlock[y][x]->Draw();
 			}
-			if (map[y][x] == SIGN2)
+			if (map[y][x] == GRAY)
 			{
-				objSign2[y][x]->Draw();
+				if (blockFlag[1] == 0) { objGrayBlock[4][24]->Draw(); }
+				if (blockFlag[2] == 0) { objGrayBlock[5][24]->Draw(); }
+				if (blockFlag[3] == 0) { objGrayBlock[6][24]->Draw(); }
+				if (blockFlag[4] == 0) { objGrayBlock[7][24]->Draw(); }
 			}
-			if (map[y][x] == SIGN3)
+			if (map[y][x] == SIGN)
 			{
-				objSign3[y][x]->Draw();
-			}
-			if (map[y][x] == SIGN4)
-			{
-				objSign4[y][x]->Draw();
-			}
-			if (map[y][x] == SIGN5)
-			{
-				objSign5[y][x]->Draw();
-			}
-			if (map[y][x] == SIGN6)
-			{
-				objSign6[y][x]->Draw();
+				objSign[y][x]->Draw();
 			}
 		}
 	}

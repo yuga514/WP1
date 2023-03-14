@@ -34,7 +34,7 @@ StageTwoMap::~StageTwoMap()
 void StageTwoMap::Initialize()
 {
 	// モデル読み込み
-	modelBrock = Model::CreateFromOBJ("brock");
+	modelBrock = Model::CreateFromOBJ("block");
 	modelDoor = Model::CreateFromOBJ("door");
 	modelHeart = Model::CreateFromOBJ("heart");
 
@@ -96,6 +96,10 @@ void StageTwoMap::Update()
 		}
 	}
 
+	// ハートの回転
+	HeartRotation.y += 2.0f;
+	if (HeartRotation.y == 360) { HeartRotation.y = 0.0f; }
+
 	// セットポジション
 	for (int y = 0; y < mapY; y++) {
 		for (int x = 0; x < mapX; x++) {
@@ -133,10 +137,6 @@ void StageTwoMap::Update()
 			}
 		}
 	}
-
-	// ハートの回転
-	HeartRotation.y += 2.0f;
-	if (HeartRotation.y == 360) { HeartRotation.y = 0.0f; }
 
 	// アップデート
 	for (int y = 0; y < mapY; y++) {
